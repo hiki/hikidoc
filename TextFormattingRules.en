@@ -1,13 +1,11 @@
-{{toc}}
-
-!Note
-I still need to do some more editing, but this should be adequate for now.  -- Steve Brumbaugh, 22 November 2004
-
 !Paragraphs
-*Consecutive lines are concatenated into a single paragraph.
-*Blank lines (ones with only a carriage return or with only spaces and tabs) mark the end of a paragraph.
+
+Consecutive lines are concatenated into a single paragraph.
+
+Blank lines (ones with only a carriage return or with only spaces and tabs) mark the end of a paragraph.
 
 *Example statement
+
  For example,
  if I write like this, these lines
  will be formatted as one paragraph.
@@ -19,18 +17,23 @@ if I write like this, these lines
 will be formatted as one paragraph.
 
 !Links
-!!WikiNames
-*WikiNames are comprised of two or more words put together; each word begins with an uppercase letter, and is followed by at least one lowercase letter or number.
-*Words in which this condition is met become a WikiName, and a link is automatically attached.
+
+!!WikiNames (not yet supported)
+
+WikiNames are comprised of two or more words put together; each word begins with an uppercase letter, and is followed by at least one lowercase letter or number.
+
+Words in which this condition is met become a WikiName, and a link is automatically attached.
 
 *Example statement
+
  WikiName     - WikiName
  HogeRule1    - WikiName
  NOTWIKINAME  - All of the letters are uppercase, so this is not a WikiName
  WikiNAME     - All of the letters in NAME are uppercase, so this is not a WikiName
- *fooWikiName  - This begins with "foo", which is in all lowercase, so this is not a WikiName
+ fooWikiName  - This begins with "foo", which is in all lowercase, so this is not a WikiName
 
 *Example output
+
 **WikiName     - WikiName
 **HogeRule1    - WikiName
 **NOTWIKINAME  - All of the letters are uppercase, so this is not a WikiName
@@ -38,9 +41,11 @@ will be formatted as one paragraph.
 **fooWikiName  - This begins with "foo", which is in all lowercase, so this is not a WikiName
 
 !!Linking to other Wiki pages
+
 If a page name is surrounded with two pairs of brackets, it becomes a link to that page.
 
 *Example statement
+
  For example, if you write [[TextFormattingRules]], it becomes a link to that page.
 
 *Example output
@@ -48,48 +53,44 @@ If a page name is surrounded with two pairs of brackets, it becomes a link to th
 For example, if you write [[TextFormattingRules]], it becomes a link to that page.
 
 !!Linking to an arbitrary URL
+
 If a phrase and URL, separated by a vertical line, are surrounded with two pairs of brackets, it becomes a link to an arbitrary URL.
 
 *Example statement
+
  Links like [[Yahoo!|http://www.yahoo.com/]] are also possible.
 
 *Example output
 
 Links like [[Yahoo!|http://www.yahoo.com/]] are also possible.
 
-In this case, if the URL ends with jpg., .jpeg, .png, or .gif, the image is displayed on the page.  (The specified phrase becomes the ALT text for that image.)
-
-*Example statement
- [[Four-leaf clover|http://jp.rubyist.net/theme/clover/clover_h1.png]]
-
-*Example output
-
-[[Four-leaf clover|http://jp.rubyist.net/theme/clover/clover_h1.png]]
-
 Text in a paragraph that looks like a URL will automatically become a link.
 
 *Example statement
+
  Hiki's home page is http://hikiwiki.org/en/ (English).
 
 *Example output
 
 Hiki's home page is http://hikiwiki.org/en/ (English).
 
-!!InterWiki
-InterWiki is supported using [[Tiki:Tiki]].  To add a server, edit InterWikiName.
+In this case, if the URL ends with jpg., .jpeg, .png, or .gif, the image is displayed on the page.
 
 *Example statement
- *[[ruby-talk:1]]
- *[[Google:ruby wiki]]
+
+ http://jp.rubyist.net/theme/clover/clover_h1.png
 
 *Example output
-**[[ruby-talk:1]]
-**[[Google:ruby wiki]]
+
+http://jp.rubyist.net/theme/clover/clover_h1.png
+
 
 !Preformatted text
-*Lines beginning with spaces or tabs will be treated as preformatted text.
+
+Lines beginning with spaces or tabs will be treated as preformatted text.
 
 *Example output
+
  require 'cgi'
  
  cgi = CGI::new
@@ -107,11 +108,15 @@ InterWiki is supported using [[Tiki:Tiki]].  To add a server, edit InterWikiName
  EOS
 
 !Text decoration
-*Text surrounded by sets of two single quotes ('') is emphasized.
-*Text surrounded by sets of three single quotes (''') is strongly emphasized.
-*Text surrounded by sets of double equal signs (===) is struck out.
+
+Text surrounded by sets of two single quotes ('') is emphasized.
+
+Text surrounded by sets of three single quotes (''') is strongly emphasized.
+
+Text surrounded by sets of double equal signs (===) is struck out.
 
 *Example statement
+
  If you write like this, it becomes ''emphasized''.
  And if you write like this, it becomes '''strongly emphasized'''.
  ==This is dull, but== And struck-out text is supported, too!
@@ -123,10 +128,13 @@ And if you write like this, it becomes '''strongly emphasized'''.
 ==This is dull, but== And struck-out text is supported, too!
 
 !Headings
-* Lines with exclamation marks at the beginning become headings.
-* One can use up to five exclamation marks; they will be converted to <h2> to <h6> tags.
+
+Lines with exclamation marks at the beginning become headings.
+
+One can use up to six exclamation marks; they will be converted to <h1> to <h6> tags.
 
 *Example statement
+
  !Heading1
  !!Heading2
  !!!Heading3
@@ -134,6 +142,7 @@ And if you write like this, it becomes '''strongly emphasized'''.
  !!!!!Heading5
 
 *Example output
+
 !Heading1
 !!Heading2
 !!!Heading3
@@ -141,6 +150,7 @@ And if you write like this, it becomes '''strongly emphasized'''.
 !!!!!Heading5
 
 !Horizontal lines
+
 Four hyphens at the beginning of the line (----) become a horizontal rule.
 
 *Example statement
@@ -156,11 +166,15 @@ A B C D E
 F G H I J
 
 !Lists
-* Lines beginning with asterisks become list items.
-* It is possible to use up to three asterisks; it is also possible to create nested lists.
-* Lines beginning with a # become numbered lists.
+
+Lines beginning with asterisks become list items.
+
+It is possible to use up to three asterisks; it is also possible to create nested lists.
+
+Lines beginning with a # become numbered lists.
 
 *Example statement
+
  *Item 1
  **Item 1.1
  **Item 1.2
@@ -204,9 +218,11 @@ F G H I J
 ###Item 3.1.2
 
 !Quotations
+
 Lines beginning with two double quotes become quotations.
 
 *Example statement
+
  ""This is a quotation.
  ""This is another quote.
  ""This is a continued quote.  When there are consecutive quotations,
@@ -214,6 +230,7 @@ Lines beginning with two double quotes become quotations.
  ""like this.
 
 *Example output
+
 ""This is a quotation.
 ""This is another quote.
 ""This is a continued quote.  When there are consecutive quotations,
@@ -221,6 +238,7 @@ Lines beginning with two double quotes become quotations.
 ""like this.
 
 !Definitions
+
 Lines beginning with a colon and have a phrase and explanation separated by another colon will become a definition.
 
 *Example statement
@@ -230,24 +248,29 @@ Lines beginning with a colon and have a phrase and explanation separated by anot
  :rakuda:camel
 
 *Example output
+
 :ringo:apple
 :gorira:gorilla
 :rakuda:camel
 
-
 ! Tables
+
 Tables begin with two vertical bars.
+
 Leading `!' in a cell means that it is a heading cell.
-To concatenate columns or rows, put `>'(columns) or `^'(rows) at
-head of the cell.
+
+To concatenate columns or rows, put `>'(columns) or `^'(rows) at head of
+the cell.
 
 * Example statement
+
  ||!row heading \ column heading||!column A||!column B||!column C||!>column D-E (horizontal concatenation)
  ||!row 1||A1||B1||^C1-C2 (vertical concatenation)||D1||E1
  ||!row 2||A2||B2||^>D2-E2-D3-E3 (vertical and horizontal concatenation)
  ||!row 3||>>A3-C3 (horizontal concatenation)
 
 * Example output
+
 ||!row heading \ column heading||!column A||!column B||!column C||!>column D-E (horizontal concatenation)
 ||!row 1||A1||B1||^C1-C2 (vertical concatenation)||D1||E1
 ||!row 2||A2||B2||^>D2-E2-D3-E3 (vertical and horizontal concatenation)
@@ -255,6 +278,7 @@ head of the cell.
 
 
 ! Comments
+
 Lines starting with `//' becomes a comment line.
 Comment lines is not outputted.
 
@@ -264,17 +288,19 @@ Comment lines is not outputted.
 * Example output (not displayed)
 // This is a comment line.
 
-
 !Plugins
+
 One can use a plugin by surrounding text with two pairs of brackets.
 Multiple lines parameter is supported.
 When a line contains plugin only, it is becomes a block plugin,
 which is not surrounded by <p> ... </p>.
 
 *Example statement
+
  {{recent(3)}}
 
 * Example statement of multiple lines
+
  {{pre('
  ...
  ')}}
