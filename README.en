@@ -1,0 +1,23 @@
+! HikiDoc
+
+!! Introduction
+
+'HikiDoc' is a text-to-HTML conversion tool for web writers. HikiDoc
+allows you to write using an easy-to-read, easy-to-write plain text
+format, then convert it to structurally valid HTML (or XHTML).
+
+!! Requirements
+
+HikiDoc requires Ruby 1.8.2 or later.
+
+!! Installation 
+
+Run the 'setup.rb' script like so:
+
+ $ ruby setup.rb config
+ $ ruby setup.rb setup
+ # ruby setup.rb install
+
+!! Syntax
+
+See 'TextFormattingRules.en'.

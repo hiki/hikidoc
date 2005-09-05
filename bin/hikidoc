@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require 'hikidoc'
+
+HTML_TEMPLATE = <<EOS
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>%s</title>
+</head>
+<body>
+%s
+</body>
+</html>
+EOS
+
+case ARGV.size
+when 0
+  title, txt = '-', $stdin.read
+when 1
+  title, txt = '-', File.read( ARGV[0] )
+else
+  usage
+end
+
+puts HTML_TEMPLATE % [ title, HikiDoc.new( txt, :empty_element_suffix => '>' ).to_html ]

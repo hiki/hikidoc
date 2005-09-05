@@ -1,0 +1,22 @@
+! HikiDoc
+
+!! はじめに
+
+'HikiDoc' は「テキスト→ HTML」変換ツールです。書きやすく読みやすい文法の
+テキストをまともな HTML (や XHTML) に変換します。
+
+!! 必要なもの
+
+HikiDoc の実行には Ruby 1.8.2 以降が必要です。
+
+!! インストール
+
+以下のように 'setup.rb' スクリプトを用いてインストールします。
+
+ $ ruby setup.rb config
+ $ ruby setup.rb setup
+ # ruby setup.rb install
+
+!! 文法
+
+'TextFormattingRules.ja' を見てください。
