@@ -102,8 +102,8 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( %Q|<p><a href="http://hikiwiki.org/">http://hikiwiki.org/</a></p>\n|, HikiDoc.new( "http://hikiwiki.org/" ).to_html )
     assert_equal( %Q|<p><a href="http://hikiwiki.org/">http://hikiwiki.org/</a></p>\n|, HikiDoc.new( "[[http://hikiwiki.org/]]" ).to_html )
     assert_equal( %Q|<p><a href="http://hikiwiki.org/">Hiki</a></p>\n|, HikiDoc.new( "[[Hiki|http://hikiwiki.org/]]" ).to_html )
-    assert_equal( %Q|<p><img src="http://hikiwiki.org/img.png" alt="img" /></p>\n|, HikiDoc.new( "[[img|http://hikiwiki.org/img.png]]" ).to_html )
-    assert_equal( %Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|, HikiDoc.new( "[[http://hikiwiki.org/img.png]]" ).to_html )
+    assert_equal( %Q|<p><a href="http://hikiwiki.org/img.png">img</a></p>\n|, HikiDoc.new( "[[img|http://hikiwiki.org/img.png]]" ).to_html )
+    assert_equal( %Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|, HikiDoc.new( "[[http://hikiwiki.org/img.png]]" ).to_html )
     assert_equal( %Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|, HikiDoc.new( "http://hikiwiki.org/img.png" ).to_html )
   end
 
