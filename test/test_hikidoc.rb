@@ -79,6 +79,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   def test_parse_pre
     assert_equal( "<pre>\nfoo\n</pre>\n", HikiDoc.new( " foo" ).to_html )
     assert_equal( "<pre>\nfoo\n</pre>\n", HikiDoc.new( "<<<\nfoo\n>>>" ).to_html )
+    assert_equal( "<pre>\n\\:\n</pre>\n", HikiDoc.new( ' \:' ).to_html )
   end
 
   def test_parse_comment
