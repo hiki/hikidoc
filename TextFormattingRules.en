@@ -84,7 +84,6 @@ In this case, if the URL ends with jpg., .jpeg, .png, or .gif, the image is disp
 
 http://jp.rubyist.net/theme/clover/clover_h1.png
 
-
 !Preformatted text
 
 Lines beginning with spaces or tabs will be treated as preformatted text.
@@ -275,7 +274,6 @@ the cell.
 ||!row 1||A1||B1||^C1-C2 (vertical concatenation)||D1||E1
 ||!row 2||A2||B2||^>D2-E2-D3-E3 (vertical and horizontal concatenation)
 ||!row 3||>>A3-C3 (horizontal concatenation)
-
 
 ! Comments
 

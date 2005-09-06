@@ -154,7 +154,6 @@ http://jp.rubyist.net/theme/clover/clover_h1.png
 
 *記述例
 
-
  あいうえお。
  ----
  かきくけこ。
@@ -242,7 +241,6 @@ http://jp.rubyist.net/theme/clover/clover_h1.png
 コロン「:」を行の先頭に書き、続けて用語:解説文とすると用語解説になります。
 
 *記述例
-
 
  :りんご:apple
  :ゴリラ:gorilla
