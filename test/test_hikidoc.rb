@@ -115,8 +115,9 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
 
   def test_table
     assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||a||b" ).to_html )
-    assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||a||b|| " ).to_html )
-    assert_equal( %Q|<table border=\"1\">\n<tr><th>a</th><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||!a||b|| " ).to_html )
+    assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||a||b||" ).to_html )
+    assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td> </td></tr>\n</table>\n|, HikiDoc.new( "||a||b|| " ).to_html )
+    assert_equal( %Q|<table border=\"1\">\n<tr><th>a</th><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||!a||b||" ).to_html )
     assert_equal( %Q|<table border=\"1\">\n<tr><td colspan=\"2\">1</td><td rowspan=\"2\">2</td></tr>\n<tr><td rowspan=\"2\">3</td><td>4</td></tr>\n<tr><td colspan=\"2\">5</td></tr>\n</table>\n|, HikiDoc.new( "||>1||^2\n||^3||4\n||>5" ).to_html )
   end
 
