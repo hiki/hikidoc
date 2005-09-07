@@ -105,6 +105,8 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( %Q|<p><a href="http://hikiwiki.org/img.png">img</a></p>\n|, HikiDoc.new( "[[img|http://hikiwiki.org/img.png]]" ).to_html )
     assert_equal( %Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|, HikiDoc.new( "[[http://hikiwiki.org/img.png]]" ).to_html )
     assert_equal( %Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|, HikiDoc.new( "http://hikiwiki.org/img.png" ).to_html )
+    assert_equal( %Q|<p><a href="%CB%EE">Tuna</a></p>\n|, HikiDoc.new( '[[Tuna|%CB%EE]]' ).to_html )
+    assert_equal( %Q|<p><a href="%22">"</a></p>\n|, HikiDoc.new( '[["]]' ).to_html )
   end
 
   def test_definition
