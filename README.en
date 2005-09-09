@@ -27,7 +27,14 @@ Run the 'setup.rb' script like so:
 
 !! Syntax
 
-See 'TextFormattingRules.en'.
+See [[TextFormattingRules]].
+
+!! Related softwares
+
+The following softwares use the HikiDoc library.
+
+:[[tDiary|http://www.tdiary.org/]]:a Weblog/Web-diary software
+:[[Hiki|http://hikiwiki.org/]]:a powerful and fast wiki clone
 
 !! License
 
