@@ -11,10 +11,11 @@ HikiDoc の実行には Ruby 1.8.2 以降が必要です。
 
 !! ダウンロード
 
-Subversion レポジトリ http://projects.netlab.jp/svn/hikidoc から取得してください。
+Subversion レポジトリ http://projects.netlab.jp/svn/hikidoc/ から取得して
+ください。
 
  (例)
- svn co http://projects.netlab.jp/svn/hikidoc/trunk hikidoc
+ svn co http://projects.netlab.jp/svn/hikidoc/trunk/ hikidoc
 
 !! インストール
 
@@ -27,6 +28,16 @@ Subversion レポジトリ http://projects.netlab.jp/svn/hikidoc から取得してください
 !! 文法
 
 [[TextFormattingRules.ja]] をご覧ください。
+
+!! メーリングリスト
+
+参加を希望される方は、以下のようなメールを送信してください。
+ To: hikidoc@ml.fdiary.net
+ Cc: kazuhiko@fdiary.net
+ 
+ 本文に自己紹介など
+
+過去のメールは http://www.fdiary.net/ml/hikidoc/ で公開しています。
 
 !! 関連するソフトウェア
 
