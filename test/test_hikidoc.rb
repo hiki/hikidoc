@@ -137,6 +137,10 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( %Q|<table border=\"1\">\n<tr><td colspan=\"2\">1</td><td rowspan=\"2\">2</td></tr>\n<tr><td rowspan=\"2\">3</td><td>4</td></tr>\n<tr><td colspan=\"2\">5</td></tr>\n</table>\n|, HikiDoc.new( "||>1||^2\n||^3||4\n||>5" ).to_html )
   end
 
+  def test_table_with_modifier
+    assert_equal( %Q!<table border=\"1\">\n<tr><td><strong>||</strong></td><td>bar</td></tr>\n</table>\n!, HikiDoc.new( "||'''||'''||bar" ).to_html )
+  end
+
   def test_modifier
     assert_equal( "<p><strong>foo</strong></p>\n", HikiDoc.new( "'''foo'''" ).to_html )
     assert_equal( "<p><em>foo</em></p>\n", HikiDoc.new( "''foo''" ).to_html )
