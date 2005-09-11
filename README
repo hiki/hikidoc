@@ -12,7 +12,7 @@ HikiDoc requires Ruby 1.8.2 or later.
 
 !! Download
 
-Get from the subversion repository <http://projects.netlab.jp/svn/hikidoc/>.
+Get from the subversion repository http://projects.netlab.jp/svn/hikidoc/ .
 
  (eg.)
  svn co http://projects.netlab.jp/svn/hikidoc/trunk/ hikidoc
@@ -28,6 +28,19 @@ Run the 'setup.rb' script like so:
 !! Syntax
 
 See [[TextFormattingRules]].
+
+!! Mailing list
+
+To subscribe the HikiDoc ML, please send the following mail. English
+posts are also welcome.
+  
+ To: hikidoc@ml.fdiary.net
+ Cc: kazuhiko@fdiary.net
+ Subject: subscribe        <- any subject
+ 
+ Hello.                    <- any body
+
+HikiDoc ML's archive is available at http://www.fdiary.net/ml/hikidoc/ .
 
 !! Related softwares
 
