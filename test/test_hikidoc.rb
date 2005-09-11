@@ -51,6 +51,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( "<blockquote>\n<p>foo\nbar</p>\n<p>foo</p>\n</blockquote>\n", HikiDoc.new( %Q|""foo\n""bar\n""\n""foo| ).to_html )
     assert_equal( "<blockquote>\n<p>foo\nbar</p>\n<h1>foo</h1>\n</blockquote>\n", HikiDoc.new( %Q|""foo\n""bar\n""!foo| ).to_html )
     assert_equal( "<blockquote>\n<p>foo\nbar</p>\n<pre>\nbaz\n</pre>\n</blockquote>\n", HikiDoc.new( %Q|""foo\n"" bar\n""  baz| ).to_html )
+    assert_equal( "<blockquote>\n<p>foo\nbar</p>\n<pre>\nbaz\n</pre>\n</blockquote>\n", HikiDoc.new( %Q|""foo\n""\tbar\n""\t\tbaz| ).to_html )
   end
 
   def test_header
@@ -82,6 +83,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   def test_pre
     assert_equal( "<pre>\nfoo\n</pre>\n", HikiDoc.new( " foo" ).to_html )
     assert_equal( "<pre>\n\\:\n</pre>\n", HikiDoc.new( ' \:' ).to_html )
+    assert_equal( "<pre>\nfoo\n</pre>\n", HikiDoc.new( "\tfoo" ).to_html )
   end
 
   def test_multi_pre
