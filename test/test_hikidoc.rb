@@ -68,11 +68,15 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   def test_list
     assert_equal( "<ul>\n<li>foo</li>\n</ul>\n", HikiDoc.new( "* foo" ).to_html )
     assert_equal( "<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>\n", HikiDoc.new( "* foo\n* bar" ).to_html )
-    assert_equal( "<ul>\n<li>foo<ul>\n<li>bar</li>\n</ul>\n</li>\n</ul>\n", HikiDoc.new( "* foo\n** bar" ).to_html )
-    assert_equal( "<ul>\n<li>foo<ul>\n<li>foo</li>\n</ul>\n</li>\n<li>bar</li>\n</ul>\n", HikiDoc.new( "* foo\n** foo\n* bar" ).to_html )
-    assert_equal( "<ul>\n<li>foo<ul>\n<li>foo</li>\n</ul>\n</li>\n<li>bar</li>\n</ul>\n", HikiDoc.new( "* foo\n*** foo\n* bar" ).to_html )
-    assert_equal( "<ul>\n<li>foo<ol>\n<li>foo</li>\n</ol>\n</li>\n<li>bar</li>\n</ul>\n", HikiDoc.new( "* foo\n## foo\n* bar" ).to_html )
+    assert_equal( "<ul>\n<li>foo<ul>\n<li>bar</li>\n</ul></li>\n</ul>\n", HikiDoc.new( "* foo\n** bar" ).to_html )
+    assert_equal( "<ul>\n<li>foo<ul>\n<li>foo</li>\n</ul></li>\n<li>bar</li>\n</ul>\n", HikiDoc.new( "* foo\n** foo\n* bar" ).to_html )
+    assert_equal( "<ul>\n<li>foo<ol>\n<li>foo</li>\n</ol></li>\n<li>bar</li>\n</ul>\n", HikiDoc.new( "* foo\n## foo\n* bar" ).to_html )
     assert_equal( "<ul>\n<li>foo</li>\n</ul>\n<ol>\n<li>bar</li>\n</ol>\n", HikiDoc.new( "* foo\n# bar" ).to_html )
+  end
+
+  def test_list_skip
+    assert_equal( "<ul>\n<li>foo<ul>\n<li><ul>\n<li>foo</li>\n</ul></li>\n</ul></li>\n<li>bar</li>\n</ul>\n", HikiDoc.new( "* foo\n*** foo\n* bar" ).to_html )
+    assert_equal( "<ol>\n<li>foo\<ol>\n<li><ol>\n<li>bar</li>\n<li>baz</li>\n</ol></li>\n</ol></li>\n</ol>\n", HikiDoc.new( "# foo\n### bar\n###baz" ).to_html )
   end
 
   def test_hrules
