@@ -1,18 +1,39 @@
 #!/usr/bin/env ruby
 
 require 'hikidoc'
+require 'optparse'
+require 'erb'
 
 HTML_TEMPLATE = <<EOS
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
-<title>%s</title>
+<title><%=title%></title>
 </head>
 <body>
-%s
+<%=body%>
 </body>
 </html>
 EOS
+
+opt = {}
+ARGV.options do |o|
+  o.banner = "Usage: #$0 [OPTIONS] FILE"
+
+  # fragment mode
+  o.on( '--fragment', '-f',
+          'Output HTML fragments only' ) do
+    opt[:fragment] = true
+  end
+  o.on( '--template=VAL', '-t',
+          'Specify a HTML template file' ) do |v|
+    opt[:template] = File.read( v )
+  end
+
+  o.parse!
+end
+
+opt[:template] ||= HTML_TEMPLATE
 
 case ARGV.size
 when 0
@@ -23,4 +44,10 @@ else
   usage
 end
 
-puts HTML_TEMPLATE % [ title, HikiDoc.new( txt, :empty_element_suffix => '>' ).to_html ]
+body = HikiDoc.new( txt, :empty_element_suffix => '>' ).to_html
+
+if opt[:fragment]
+  puts body
+else
+  puts ERB.new( opt[:template] ).result( binding )
+end
