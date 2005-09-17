@@ -154,6 +154,8 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( "<p><em>foo</em></p>\n", HikiDoc.new( "''foo''" ).to_html )
     assert_equal( "<p><del>foo</del></p>\n", HikiDoc.new( "==foo==" ).to_html )
     assert_equal( "<p><em>foo==bar</em>baz==</p>\n", HikiDoc.new( "''foo==bar''baz==" ).to_html )
+    assert_equal( "<p><strong>foo</strong> and <strong>bar</strong></p>\n", HikiDoc.new( "'''foo''' and '''bar'''" ).to_html )
+    assert_equal( "<p><em>foo</em> and <em>bar</em></p>\n", HikiDoc.new( "''foo'' and ''bar''" ).to_html )
   end
 
   def test_modifier_and_link
