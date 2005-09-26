@@ -1,4 +1,4 @@
-# $Id:$
+# $Id$
 require 'test/unit'
 
 rootdir = "#{File::dirname($0)}/.."
@@ -38,9 +38,17 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( %Q|<p>a<span class="plugin">{{hoge}}</span>b</p>\n|, HikiDoc.new( 'a{{hoge}}b' ).to_html )
     assert_equal( %Q|<p>a{{hoge</p>\n|, HikiDoc.new( 'a{{hoge' ).to_html )
     assert_equal( %Q|<p>hoge}}b</p>\n|, HikiDoc.new( 'hoge}}b' ).to_html )
-    assert_equal( %Q|<div class="plugin">{{hoge(\"}}\")}}</div>\n|, HikiDoc.new( '{{hoge("}}")}}' ).to_html )
     assert_equal( %Q|<p><span class="plugin">{{hoge}}</span>\na</p>\n|, HikiDoc.new( "{{hoge}}\na" ).to_html )
     assert_equal( %Q|<div class="plugin">{{hoge}}</div>\n<p>a</p>\n|, HikiDoc.new( "{{hoge}}\n\na" ).to_html )
+  end
+
+  def test_plugin_with_quotes
+    assert_equal( %Q|<div class="plugin">{{hoge(\"}}\")}}</div>\n|, HikiDoc.new( '{{hoge("}}")}}' ).to_html )
+    assert_equal( %Q|<div class="plugin">{{hoge(\'}}\')}}</div>\n|, HikiDoc.new( "{{hoge('}}')}}" ).to_html )
+  end
+
+  def test_plugin_with_meta_char
+    assert_equal( %Q|<div class="plugin">{{hoge(\"a\\"b")}}</div>\n|, HikiDoc.new( '{{hoge("a\"b")}}' ).to_html )
   end
 
   def test_blockquote
@@ -166,5 +174,9 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( %Q|<pre>\n{{hoge}}\n</pre>\n|, HikiDoc.new( ' {{hoge}}').to_html )
     assert_equal( %Q|<pre>\n{{hoge}}\n</pre>\n|, HikiDoc.new( "<<<\n{{hoge}}\n>>>").to_html )
     assert_equal( %Q|<div class=\"plugin\">{{foo\n 1}}</div>\n|, HikiDoc.new( "{{foo\n 1}}").to_html )
+  end
+
+  def test_plugin_in_modifier
+    assert_equal( %Q|<p><strong><span class="plugin">{{foo}}</span></strong></p>\n|, HikiDoc.new( "'''{{foo}}'''" ).to_html )
   end
 end
