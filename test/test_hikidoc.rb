@@ -135,6 +135,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( "<dl>\n<dt>a</dt><dd>b</dd>\n<dd>c</dd>\n</dl>\n", HikiDoc.new( ":a:b\n::c" ).to_html )
     assert_equal( "<dl>\n<dt>a:b</dt><dd>c</dd>\n</dl>\n", HikiDoc.new( ':a\:b:c' ).to_html )
     assert_equal( "<dl>\n<dt>a</dt><dd>b:c</dd>\n</dl>\n", HikiDoc.new( ':a:b:c' ).to_html )
+    assert_equal( "<dl>\n<dt>http</dt><dd>hoge</dd>\n</dl>\n", HikiDoc.new( ':http:hoge' ).to_html )
   end
 
   def test_definition_with_link
