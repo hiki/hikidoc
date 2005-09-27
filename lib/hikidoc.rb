@@ -101,7 +101,7 @@ class HikiDoc < String
       when PLUGIN_CLOSE
         if plugin
           plugin_str += str
-          unless /['"]/ =~ plugin_str.gsub( /(['"]).*?\1/, '' )
+          unless /['"]/ =~ plugin_str.gsub( /(['"]).*?\1/m, '' )
             plugin = false
             ret << store_plugin_block( unescape_meta_char( plugin_str, true ) )
             plugin_str = ''

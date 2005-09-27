@@ -45,6 +45,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   def test_plugin_with_quotes
     assert_equal( %Q|<div class="plugin">{{hoge(\"}}\")}}</div>\n|, HikiDoc.new( '{{hoge("}}")}}' ).to_html )
     assert_equal( %Q|<div class="plugin">{{hoge(\'}}\')}}</div>\n|, HikiDoc.new( "{{hoge('}}')}}" ).to_html )
+    assert_equal( %Q|<div class="plugin">{{hoge(\'\n}}\n\')}}</div>\n|, HikiDoc.new( "{{hoge('\n}}\n')}}" ).to_html )
   end
 
   def test_plugin_with_meta_char
