@@ -139,6 +139,14 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( "<dl>\n<dt>http</dt><dd>hoge</dd>\n</dl>\n", HikiDoc.new( ':http:hoge' ).to_html )
   end
 
+  def test_definition_title_only
+    assert_equal( "<dl>\n<dt>a</dt>\n</dl>\n", HikiDoc.new( ":a:" ).to_html )
+  end
+
+  def test_definition_description_only
+    assert_equal( "<dl>\n<dd>b</dd>\n</dl>\n", HikiDoc.new( "::b" ).to_html )
+  end
+
   def test_definition_with_link
     assert_equal( %Q|<dl>\n<dt><a href="http://hikiwiki.org/">Hiki</a></dt><dd>Website</dd>\n</dl>\n|, HikiDoc.new( ':[[Hiki|http://hikiwiki.org/]]:Website' ).to_html )
   end
