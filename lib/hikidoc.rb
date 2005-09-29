@@ -87,7 +87,7 @@ class HikiDoc < String
 
   PLUGIN_OPEN = '{{'
   PLUGIN_CLOSE = '}}'
-  PLUGIN_SPLIT_RE = /(#{Regexp.quote(PLUGIN_OPEN)}|#{Regexp.quote(PLUGIN_CLOSE)})/
+  PLUGIN_SPLIT_RE = /(#{Regexp.union( PLUGIN_OPEN, PLUGIN_CLOSE )})/
 
   def parse_plugin( text )
     ret = ''
