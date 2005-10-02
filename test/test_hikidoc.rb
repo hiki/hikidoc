@@ -5,7 +5,7 @@ rootdir = "#{File::dirname($0)}/.."
 require "#{rootdir}/lib/hikidoc"
 
 class HikiDocTest < HikiDoc
-  public :escape_html, :unescape_html, :escape_meta_char
+  public :escape_html, :escape_meta_char
 end
 
 class HikiDoc_Unit_Tests < Test::Unit::TestCase
@@ -16,12 +16,6 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( 'a&amp;b', HikiDocTest.new.escape_html( 'a&b' ) )
     assert_equal( 'a&lt;&lt;b', HikiDocTest.new.escape_html( 'a<<b' ) )
     assert_equal( 'a&gt;&gt;b', HikiDocTest.new.escape_html( 'a>>b' ) )
-  end
-
-  def test_unescape_html
-    assert_equal( 'a&b', HikiDocTest.new.unescape_html( 'a&amp;b' ) )
-    assert_equal( 'a<<b', HikiDocTest.new.unescape_html( 'a&lt;&lt;b' ) )
-    assert_equal( 'a>>b', HikiDocTest.new.unescape_html( 'a&gt;&gt;b' ) )
   end
 
   def test_escape_meta_char
@@ -126,9 +120,9 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( %Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|, HikiDoc.new( "[[http://hikiwiki.org/img.png]]" ).to_html )
     assert_equal( %Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|, HikiDoc.new( "http://hikiwiki.org/img.png" ).to_html )
     assert_equal( %Q|<p><a href="%CB%EE">Tuna</a></p>\n|, HikiDoc.new( '[[Tuna|%CB%EE]]' ).to_html )
-    assert_equal( %Q|<p><a href="%22">"</a></p>\n|, HikiDoc.new( '[["]]' ).to_html )
+    assert_equal( %Q|<p><a href="&quot;">"</a></p>\n|, HikiDoc.new( '[["]]' ).to_html )
     assert_equal( %Q|<p><a href="%22">%22</a></p>\n|, HikiDoc.new( '[[%22]]' ).to_html )
-    assert_equal( %Q|<p><a href="%26">&amp;</a></p>\n|, HikiDoc.new( '[[&]]' ).to_html )
+    assert_equal( %Q|<p><a href="&amp;">&amp;</a></p>\n|, HikiDoc.new( '[[&]]' ).to_html )
   end
 
   def test_definition
