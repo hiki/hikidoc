@@ -119,8 +119,10 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( %Q|<p><a href="http://hikiwiki.org/img.png">img</a></p>\n|, HikiDoc.new( "[[img|http://hikiwiki.org/img.png]]" ).to_html )
     assert_equal( %Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|, HikiDoc.new( "[[http://hikiwiki.org/img.png]]" ).to_html )
     assert_equal( %Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|, HikiDoc.new( "http://hikiwiki.org/img.png" ).to_html )
+    assert_equal( %Q|<p><img src="/img.png" alt="img.png" /></p>\n|, HikiDoc.new( "http:/img.png" ).to_html )
+    assert_equal( %Q|<p><img src="img.png" alt="img.png" /></p>\n|, HikiDoc.new( "http:img.png" ).to_html )
     assert_equal( %Q|<p><a href="%CB%EE">Tuna</a></p>\n|, HikiDoc.new( '[[Tuna|%CB%EE]]' ).to_html )
-    assert_equal( %Q|<p><a href="&quot;">"</a></p>\n|, HikiDoc.new( '[["]]' ).to_html )
+    assert_equal( %Q|<p><a href="&quot;&quot;">""</a></p>\n|, HikiDoc.new( '[[""]]' ).to_html )
     assert_equal( %Q|<p><a href="%22">%22</a></p>\n|, HikiDoc.new( '[[%22]]' ).to_html )
     assert_equal( %Q|<p><a href="&amp;">&amp;</a></p>\n|, HikiDoc.new( '[[&]]' ).to_html )
   end
@@ -130,7 +132,6 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( "<dl>\n<dt>a</dt><dd>b</dd>\n<dd>c</dd>\n</dl>\n", HikiDoc.new( ":a:b\n::c" ).to_html )
     assert_equal( "<dl>\n<dt>a:b</dt><dd>c</dd>\n</dl>\n", HikiDoc.new( ':a\:b:c' ).to_html )
     assert_equal( "<dl>\n<dt>a</dt><dd>b:c</dd>\n</dl>\n", HikiDoc.new( ':a:b:c' ).to_html )
-    assert_equal( "<dl>\n<dt>http</dt><dd>hoge</dd>\n</dl>\n", HikiDoc.new( ':http:hoge' ).to_html )
   end
 
   def test_definition_title_only
@@ -152,9 +153,11 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   def test_table
     assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||a||b" ).to_html )
     assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||a||b||" ).to_html )
+    assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||a||b||" ).to_html )
     assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td> </td></tr>\n</table>\n|, HikiDoc.new( "||a||b|| " ).to_html )
     assert_equal( %Q|<table border=\"1\">\n<tr><th>a</th><td>b</td></tr>\n</table>\n|, HikiDoc.new( "||!a||b||" ).to_html )
     assert_equal( %Q|<table border=\"1\">\n<tr><td colspan=\"2\">1</td><td rowspan=\"2\">2</td></tr>\n<tr><td rowspan=\"2\">3</td><td>4</td></tr>\n<tr><td colspan=\"2\">5</td></tr>\n</table>\n|, HikiDoc.new( "||>1||^2\n||^3||4\n||>5" ).to_html )
+    assert_equal( %Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td>c</td></tr>\n<tr><td></td><td></td><td></td></tr>\n<tr><td>d</td><td>e</td><td>f</td></tr>\n</table>\n|, HikiDoc.new( "||a||b||c||\n||||||||\n||d||e||f||" ).to_html )
   end
 
   def test_table_with_modifier

@@ -274,7 +274,7 @@ class HikiDoc < String
       ret = %Q|\n<table border="1">\n|
       str.each do |line|
         ret << "<tr>"
-        line.chomp.split( TABLE_SPLIT_RE )[1..-1].each do |i|
+        line.chomp.sub( /#{TABLE_SPLIT_RE}$/, '').split( TABLE_SPLIT_RE, -1 )[1..-1].each do |i|
           tag = i.sub!( /^!/, '' ) ? 'th' : 'td'
           attr = ''
           if i.sub!( /^((?:\^|&gt;)+)/, '' )
@@ -335,7 +335,7 @@ class HikiDoc < String
   IMAGE_RE = /\.(jpg|jpeg|gif|png)\z/i
   BRACKET_LINK_RE = /\[\[(.+?)\]\]/
   NAMED_LINK_RE = /(.+?)\|(.+)/
-  URI_RE = /(?:(?:https?|ftp|file):\/\/|mailto:)[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
+  URI_RE = /(?:(?:https?|ftp|file):|mailto:)[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
 
   def parse_link( text )
     ret = text
@@ -350,6 +350,7 @@ class HikiDoc < String
       store_block( %Q|<a href="#{escape_quote( uri )}">#{title}</a>| )
     end
     ret.gsub!( URI_RE ) do |uri|
+      uri.sub!( /^\w+:/, '' ) if %r|://| !~ uri and /^mailto:/ !~ uri
       if IMAGE_RE =~ uri
         store_block( %Q|<img src="#{uri}" alt="#{File.basename( uri )}"#{@empty_element_suffix}| )
       else
