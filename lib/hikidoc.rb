@@ -347,10 +347,11 @@ class HikiDoc < String
       else
         uri = title = link
       end
+      uri.sub!( /^\w+:/, '' ) if %r|://| !~ uri && /^mailto:/ !~ uri
       store_block( %Q|<a href="#{escape_quote( uri )}">#{title}</a>| )
     end
     ret.gsub!( URI_RE ) do |uri|
-      uri.sub!( /^\w+:/, '' ) if %r|://| !~ uri and /^mailto:/ !~ uri
+      uri.sub!( /^\w+:/, '' ) if %r|://| !~ uri && /^mailto:/ !~ uri
       if IMAGE_RE =~ uri
         store_block( %Q|<img src="#{uri}" alt="#{File.basename( uri )}"#{@empty_element_suffix}| )
       else
