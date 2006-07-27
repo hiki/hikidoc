@@ -175,6 +175,11 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( "<p><em>foo</em> and <em>bar</em></p>\n", HikiDoc.new( "''foo'' and ''bar''" ).to_html )
   end
 
+  def test_nested_modifier
+    assert_equal( "<p><em><del>foo</del></em></p>\n", HikiDoc.new( "''==foo==''" ).to_html )
+    assert_equal( "<p><del><em>foo</em></del></p>\n", HikiDoc.new( "==''foo''==" ).to_html )
+  end
+
   def test_modifier_and_link
     assert_equal( %Q|<p><a href="http://hikiwiki.org/"><strong>Hiki</strong></a></p>\n|, HikiDoc.new( "[['''Hiki'''|http://hikiwiki.org/]]" ).to_html )
   end
