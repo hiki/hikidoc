@@ -378,8 +378,6 @@ class HikiDoc < String
         store_block( "<em>#{parse_modifier($2)}</em>" )
       when DEL
         store_block( "<del>#{parse_modifier($2)}</del>" )
-      else
-        str
       end
     end
   end
