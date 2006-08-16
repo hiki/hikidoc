@@ -46,6 +46,7 @@ Subversion レポジトリ http://projects.netlab.jp/svn/hikidoc/ から取得して
 :[[tDiary|http://www.tdiary.org/]]:ウェブ日記ソフトウェア
 :[[Hiki|http://hikiwiki.org/]]:多機能かつ高速な Wiki クローン
 :[[lily|http://lily.sourceforge.jp/]]:シンプルな CMS (Web サイト構築システム)
+:[[HikiDoc.pm|http://haro.jp/wiki/index.cgi?page=B%27s+Soft#p2]]:Perl による HikiDoc の実装
 
 !! ライセンス
 
