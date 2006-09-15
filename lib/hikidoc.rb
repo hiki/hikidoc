@@ -28,6 +28,11 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
 require 'uri'
+begin
+  require 'rubygems' rescue nil
+  require 'syntax/convertors/html'
+rescue LoadError
+end
 
 class HikiDoc < String
   Revision = %q$Rev$
@@ -130,8 +135,14 @@ class HikiDoc < String
 
   def parse_pre( text )
     ret = text
-    ret.gsub!( /^#{MULTI_PRE_OPEN_RE}$(.*?)^#{MULTI_PRE_CLOSE_RE}$/m ) do |str|
-      "\n" + store_block( "<pre>%s</pre>" % restore_pre( $1 ) ) + "\n\n"
+    ret.gsub!( /^#{MULTI_PRE_OPEN_RE}[ \t]*(\w*)$(.*?)^#{MULTI_PRE_CLOSE_RE}$/m ) do |str|
+      begin
+        raise if $1.empty?
+        convertor = Syntax::Convertors::HTML.for_syntax($1.downcase)
+        "\n" + store_block( convertor.convert( restore_pre( $2 ) ) ) + "\n\n"
+      rescue
+        "\n" + store_block( "<pre>%s</pre>" % restore_pre( $2 ) ) + "\n\n"
+      end
     end
     ret.gsub!( /(?:#{PRE_RE}.*\n?)+/ ) do |str|
       str.chomp!
