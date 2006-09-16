@@ -139,7 +139,7 @@ class HikiDoc < String
       begin
         raise if $1.empty?
         convertor = Syntax::Convertors::HTML.for_syntax($1.downcase)
-        "\n" + store_block( convertor.convert( restore_pre( $2 ) ) ) + "\n\n"
+        "\n" + store_block( convertor.convert( unescape_html( restore_pre( $2 ) ) ) ) + "\n\n"
       rescue
         "\n" + store_block( "<pre>%s</pre>" % restore_pre( $2 ) ) + "\n\n"
       end
@@ -401,6 +401,12 @@ class HikiDoc < String
     text.gsub( /&/, '&amp;' ).
       gsub( /</, '&lt;' ).
       gsub( />/, '&gt;' )
+  end
+
+  def unescape_html( text )
+    text.gsub( /&gt;/, '>').
+      gsub( /&lt;/, '<').
+      gsub( /&amp;/, '&')
   end
 
   def escape_quote( text )
