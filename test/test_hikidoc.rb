@@ -1,7 +1,7 @@
 # $Id$
 require 'test/unit'
 
-rootdir = "#{File::dirname($0)}/.."
+rootdir = "#{File::dirname(__FILE__)}/.."
 require "#{rootdir}/lib/hikidoc"
 
 class HikiDocTest < HikiDoc
