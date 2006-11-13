@@ -46,6 +46,12 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal( %Q|<div class="plugin">{{hoge(\"a\\"b")}}</div>\n|, HikiDoc.new( '{{hoge("a\"b")}}' ).to_html )
   end
 
+  def test_plugin_with_custom_syntax
+    assert_equal( %Q|<p>{{&lt;&lt;"End"\nfoo's bar\nEnd\n}}</p>\n|, HikiDoc.new( %Q!{{<<"End"\nfoo's bar\nEnd\n}}! ).to_html )
+    assert_equal( %Q|<div class="plugin">{{&lt;&lt;"End"\nfoo's bar\nEnd\n}}</div>\n|, HikiDoc.new( %Q!{{<<"End"\nfoo's bar\nEnd\n}}!, :plugin_syntax => method(:custom_valid_plugin_syntax?) ).to_html )
+    assert_equal( %Q|<div class="plugin">{{&lt;&lt;"End"\nfoo\nEnd}}</div>\n|, HikiDoc.new( %Q!{{<<"End"\nfoo\nEnd}}!, :plugin_syntax => method(:custom_valid_plugin_syntax?) ).to_html )
+  end
+
   def test_blockquote
     assert_equal( "<blockquote>\n<p>hoge</p>\n</blockquote>\n", HikiDoc.new( %Q|""hoge\n| ).to_html )
     assert_equal( "<blockquote>\n<p>hoge\nfuga</p>\n</blockquote>\n", HikiDoc.new( %Q|""hoge\n""fuga\n| ).to_html )
@@ -201,5 +207,13 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
       assert_equal( "<pre>\n<span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n", HikiDoc.new( "<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>" ).to_html )
       assert_equal( "<pre>\n<span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span>\n</pre>\n", HikiDoc.new( "<<< ruby\n'a<\">b'\n>>>" ).to_html )
     end
+  end
+  
+  private
+  
+  def custom_valid_plugin_syntax?(code)
+    eval( "BEGIN {return true}\n#{code}", nil, "(plugin)", 0 )
+  rescue SyntaxError
+    false
   end
 end
