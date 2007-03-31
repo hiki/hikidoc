@@ -21,13 +21,13 @@ ARGV.options do |o|
   o.banner = "Usage: #$0 [OPTIONS] FILE"
 
   # fragment mode
-  o.on( '--fragment', '-f',
-          'Output HTML fragments only' ) do
+  o.on('--fragment', '-f',
+          'Output HTML fragments only') do
     opt[:fragment] = true
   end
-  o.on( '--template=VAL', '-t',
-          'Specify a HTML template file' ) do |v|
-    opt[:template] = File.read( v )
+  o.on('--template=VAL', '-t',
+          'Specify a HTML template file') do |v|
+    opt[:template] = File.read(v)
   end
 
   o.parse!
@@ -39,15 +39,15 @@ case ARGV.size
 when 0
   title, txt = '-', $stdin.read
 when 1
-  title, txt = ARGV[0], File.read( ARGV[0] )
+  title, txt = ARGV[0], File.read(ARGV[0])
 else
   usage
 end
 
-body = HikiDoc.new( txt, :empty_element_suffix => '>' ).to_html
+body = HikiDoc.to_html(txt)
 
 if opt[:fragment]
   puts body
 else
-  puts ERB.new( opt[:template] ).result( binding )
+  puts ERB.new(opt[:template]).result(binding)
 end
