@@ -30,6 +30,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   def test_plugin
     assert_equal(%Q|<div class="plugin">{{hoge}}</div>\n|, HikiDoc.new("{{hoge}}").to_html)
     assert_equal(%Q|<p>a<span class="plugin">{{hoge}}</span>b</p>\n|, HikiDoc.new("a{{hoge}}b").to_html)
+    assert_equal(%Q|<p>\\<span class="plugin">{{hoge}}</span></p>\n|, HikiDoc.new("\\{{hoge}}").to_html)
     assert_equal(%Q|<p>a{{hoge</p>\n|, HikiDoc.new("a{{hoge").to_html)
     assert_equal(%Q|<p>hoge}}b</p>\n|, HikiDoc.new("hoge}}b").to_html)
     assert_equal(%Q|<p><span class="plugin">{{hoge}}</span>\na</p>\n|, HikiDoc.new("{{hoge}}\na").to_html)
@@ -143,7 +144,8 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   def test_definition
     assert_equal("<dl>\n<dt>a</dt><dd>b</dd>\n</dl>\n", HikiDoc.new(":a:b").to_html)
     assert_equal("<dl>\n<dt>a</dt><dd>b</dd>\n<dd>c</dd>\n</dl>\n", HikiDoc.new(":a:b\n::c").to_html)
-    assert_equal("<dl>\n<dt>a\\:b</dt><dd>c</dd>\n</dl>\n", HikiDoc.new(':a\:b:c').to_html)
+    assert_equal("<dl>\n<dt>a\\</dt><dd>b:c</dd>\n</dl>\n", HikiDoc.new(':a\:b:c').to_html)
+    assert_equal("<dl>\n<dt>a</dt><dd>b\\:c</dd>\n</dl>\n", HikiDoc.new(':a:b\:c').to_html)
     assert_equal("<dl>\n<dt>a</dt><dd>b:c</dd>\n</dl>\n", HikiDoc.new(":a:b:c").to_html)
   end
 

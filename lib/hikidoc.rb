@@ -84,23 +84,19 @@ class HikiDoc
     s = StringScanner.new(text)
     buf = ""
     @plugin_blocks = []
-    while chunk = s.scan_until(/\\\{|\{\{/)
+    while chunk = s.scan_until(/\{\{/)
       tail = chunk[-2, 2]
       chunk[-2, 2] = ""
       buf << chunk
-      if tail == "\\{"
-        buf << tail
+      # plugin
+      if block = extract_plugin_block(s)
+        @plugin_blocks.push block
+        buf << "\0#{@plugin_blocks.size - 1}\0"
       else
-        # plugin
-        if block = extract_plugin_block(s)
-          @plugin_blocks.push block
-          buf << "\0#{@plugin_blocks.size - 1}\0"
-        else
-          buf << "{{"
-        end
+        buf << "{{"
       end
     end
-    buf << s.rest.gsub(/\\\{/, "{")
+    buf << s.rest
     buf = yield(buf)
     buf.gsub(/\0(\d+)\0/) {
       @output.inline_plugin(plugin_block($1.to_i))
@@ -253,7 +249,7 @@ class HikiDoc
   end
 
   def split_dlitem(line)
-    re = /\A((?:[^\\:\[]+|\\.|#{BRACKET_LINK_RE}|\[)*):/o
+    re = /\A((?:#{BRACKET_LINK_RE}|.)*?):/o
     if m = re.match(line)
       return m[1], m.post_match
     else
@@ -358,7 +354,7 @@ class HikiDoc
   # Inline Level
   #
 
-  BRACKET_LINK_RE = /\[\[(?:[^\\\]]+|\\.|(?!\]\])\])*\]\]/
+  BRACKET_LINK_RE = /\[\[.+\]\]/
   URI_RE = /(?:https?|ftp|file|mailto):[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
 
   def compile_inline(str)
@@ -421,9 +417,9 @@ class HikiDoc
   EM = "''"
   DEL = "=="
 
-  STRONG_RE = /'''(?:[^\\']+|\\.|(?!''')''?)+'''/
-  EM_RE     = /''(?:[^\\']+|\\.|(?!'')')+''/
-  DEL_RE    = /==(?:[^\\=]+|\\.|(?!==)=)+==/
+  STRONG_RE = /'''.+?'''/
+  EM_RE     = /''.+?''/
+  DEL_RE    = /==.+?==/
 
   MODIFIER_RE = Regexp.union(STRONG_RE, EM_RE, DEL_RE)
 
