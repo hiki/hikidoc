@@ -99,6 +99,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal("<pre>foo</pre>\n", HikiDoc.new(" foo").to_html)
     assert_equal("<pre>\\:</pre>\n", HikiDoc.new(' \:').to_html)
     assert_equal("<pre>foo</pre>\n", HikiDoc.new("\tfoo").to_html)
+    assert_equal("<pre>foo\nbar</pre>\n", HikiDoc.new(" foo\n bar").to_html)
   end
 
   def test_multi_pre
