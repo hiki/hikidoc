@@ -23,10 +23,6 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
 
   HikiDocTest = HikiDoc
 
-  def assert_equal(ex, val)
-    super ex.delete("\n"), val.delete("\n")
-  end
-
   def test_plugin
     assert_equal(%Q|<div class="plugin">{{hoge}}</div>\n|, HikiDoc.new("{{hoge}}").to_html)
     assert_equal(%Q|<p>a<span class="plugin">{{hoge}}</span>b</p>\n|, HikiDoc.new("a{{hoge}}b").to_html)
@@ -59,14 +55,14 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   end
 
   def test_blockquote
-    assert_equal("<blockquote>\n<p>hoge</p>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n|).to_html)
-    assert_equal("<blockquote>\n<p>hoge\nfuga</p>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n""fuga\n|).to_html)
-    assert_equal("<blockquote>\n<p>hoge</p>\n<blockquote>\n<p>fuga</p>\n</blockquote>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n"" ""fuga\n|).to_html)
-    assert_equal("<blockquote>\n<h1>hoge</h1>\n</blockquote>\n", HikiDoc.new(%Q|"" ! hoge\n|).to_html)
-    assert_equal("<blockquote>\n<p>foo\nbar</p>\n<p>foo</p>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""bar\n""\n""foo|).to_html)
-    assert_equal("<blockquote>\n<p>foo\nbar</p>\n<h1>foo</h1>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""bar\n""!foo|).to_html)
-    assert_equal("<blockquote>\n<p>foo\nbar</p>\n<pre>\nbaz\n</pre>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n"" bar\n""  baz|).to_html)
-    assert_equal("<blockquote>\n<p>foo\nbar</p>\n<pre>\nbaz\n</pre>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""\tbar\n""\t\tbaz|).to_html)
+    assert_equal("<blockquote><p>hoge</p>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n|).to_html)
+    assert_equal("<blockquote><p>hoge\nfuga</p>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n""fuga\n|).to_html)
+    assert_equal("<blockquote><p>hoge</p>\n<blockquote><p>fuga</p>\n</blockquote>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n"" ""fuga\n|).to_html)
+    assert_equal("<blockquote><h1>hoge</h1>\n</blockquote>\n", HikiDoc.new(%Q|"" ! hoge\n|).to_html)
+    assert_equal("<blockquote><p>foo\nbar</p>\n<p>foo</p>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""bar\n""\n""foo|).to_html)
+    assert_equal("<blockquote><p>foo\nbar</p>\n<h1>foo</h1>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""bar\n""!foo|).to_html)
+    assert_equal("<blockquote><p>foo\nbar</p>\n<pre>baz</pre>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n"" bar\n""  baz|).to_html)
+    assert_equal("<blockquote><p>foo\nbar</p>\n<pre>baz</pre>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""\tbar\n""\t\tbaz|).to_html)
   end
 
   def test_header
@@ -86,7 +82,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal("<ul>\n<li>foo<ul>\n<li>bar</li>\n</ul></li>\n</ul>\n", HikiDoc.new("* foo\n** bar").to_html)
     assert_equal("<ul>\n<li>foo<ul>\n<li>foo</li>\n</ul></li>\n<li>bar</li>\n</ul>\n", HikiDoc.new("* foo\n** foo\n* bar").to_html)
     assert_equal("<ul>\n<li>foo<ol>\n<li>foo</li>\n</ol></li>\n<li>bar</li>\n</ul>\n", HikiDoc.new("* foo\n## foo\n* bar").to_html)
-    assert_equal("<ul>\n<li>foo</li>\n</ul>\n<ol>\n<li>bar</li>\n</ol>\n", HikiDoc.new("* foo\n# bar").to_html)
+    assert_equal("<ul>\n<li>foo</li>\n</ul><ol>\n<li>bar</li>\n</ol>\n", HikiDoc.new("* foo\n# bar").to_html)
   end
 
   def test_list_skip
@@ -100,20 +96,20 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   end
 
   def test_pre
-    assert_equal("<pre>\nfoo\n</pre>\n", HikiDoc.new(" foo").to_html)
-    assert_equal("<pre>\n\\:\n</pre>\n", HikiDoc.new(' \:').to_html)
-    assert_equal("<pre>\nfoo\n</pre>\n", HikiDoc.new("\tfoo").to_html)
+    assert_equal("<pre>foo</pre>\n", HikiDoc.new(" foo").to_html)
+    assert_equal("<pre>\\:</pre>\n", HikiDoc.new(' \:').to_html)
+    assert_equal("<pre>foo</pre>\n", HikiDoc.new("\tfoo").to_html)
   end
 
   def test_multi_pre
-    assert_equal("<pre>\nfoo\n</pre>\n", HikiDoc.new("<<<\nfoo\n>>>").to_html)
-    assert_equal("<pre>\nfoo\n bar\n</pre>\n", HikiDoc.new("<<<\nfoo\n bar\n>>>").to_html)
-    assert_equal("<pre>\nfoo\n</pre>\n<pre>\nbar\n</pre>\n", HikiDoc.new("<<<\nfoo\n>>>\n<<<\nbar\n>>>").to_html)
+    assert_equal("<pre>foo\n</pre>\n", HikiDoc.new("<<<\nfoo\n>>>").to_html)
+    assert_equal("<pre>foo\n bar\n</pre>\n", HikiDoc.new("<<<\nfoo\n bar\n>>>").to_html)
+    assert_equal("<pre>foo\n</pre>\n<pre>bar\n</pre>\n", HikiDoc.new("<<<\nfoo\n>>>\n<<<\nbar\n>>>").to_html)
   end
 
   def test_comment
-    assert_equal("\n", HikiDoc.new("// foo").to_html)
-    assert_equal("\n", HikiDoc.new("// foo\n").to_html)
+    assert_equal("", HikiDoc.new("// foo").to_html)
+    assert_equal("", HikiDoc.new("// foo\n").to_html)
   end
 
   def test_paragraph
@@ -142,11 +138,11 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   end
 
   def test_definition
-    assert_equal("<dl>\n<dt>a</dt><dd>b</dd>\n</dl>\n", HikiDoc.new(":a:b").to_html)
-    assert_equal("<dl>\n<dt>a</dt><dd>b</dd>\n<dd>c</dd>\n</dl>\n", HikiDoc.new(":a:b\n::c").to_html)
-    assert_equal("<dl>\n<dt>a\\</dt><dd>b:c</dd>\n</dl>\n", HikiDoc.new(':a\:b:c').to_html)
-    assert_equal("<dl>\n<dt>a</dt><dd>b\\:c</dd>\n</dl>\n", HikiDoc.new(':a:b\:c').to_html)
-    assert_equal("<dl>\n<dt>a</dt><dd>b:c</dd>\n</dl>\n", HikiDoc.new(":a:b:c").to_html)
+    assert_equal("<dl>\n<dt>a</dt>\n<dd>b</dd>\n</dl>\n", HikiDoc.new(":a:b").to_html)
+    assert_equal("<dl>\n<dt>a</dt>\n<dd>b\n</dd>\n<dd>c</dd>\n</dl>\n", HikiDoc.new(":a:b\n::c").to_html)
+    assert_equal("<dl>\n<dt>a\\</dt>\n<dd>b:c</dd>\n</dl>\n", HikiDoc.new(':a\:b:c').to_html)
+    assert_equal("<dl>\n<dt>a</dt>\n<dd>b\\:c</dd>\n</dl>\n", HikiDoc.new(':a:b\:c').to_html)
+    assert_equal("<dl>\n<dt>a</dt>\n<dd>b:c</dd>\n</dl>\n", HikiDoc.new(":a:b:c").to_html)
   end
 
   def test_definition_title_only
@@ -158,11 +154,11 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   end
 
   def test_definition_with_link
-    assert_equal(%Q|<dl>\n<dt><a href="http://hikiwiki.org/">Hiki</a></dt><dd>Website</dd>\n</dl>\n|, HikiDoc.new(":[[Hiki|http://hikiwiki.org/]]:Website").to_html)
+    assert_equal(%Q|<dl>\n<dt><a href="http://hikiwiki.org/">Hiki</a></dt>\n<dd>Website</dd>\n</dl>\n|, HikiDoc.new(":[[Hiki|http://hikiwiki.org/]]:Website").to_html)
   end
 
   def test_definition_with_modifier
-    assert_equal(%Q|<dl>\n<dt><strong>foo</strong></dt><dd>bar</dd>\n</dl>\n|, HikiDoc.new(":'''foo''':bar").to_html)
+    assert_equal(%Q|<dl>\n<dt><strong>foo</strong></dt>\n<dd>bar</dd>\n</dl>\n|, HikiDoc.new(":'''foo''':bar").to_html)
   end
 
   def test_table
@@ -171,7 +167,7 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new("||a||b||").to_html)
     assert_equal(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td> </td></tr>\n</table>\n|, HikiDoc.new("||a||b|| ").to_html)
     assert_equal(%Q|<table border=\"1\">\n<tr><th>a</th><td>b</td></tr>\n</table>\n|, HikiDoc.new("||!a||b||").to_html)
-    assert_equal(%Q|<table border=\"1\">\n<tr><td colspan=\"2\">1</td><td rowspan=\"2\">2</td></tr>\n<tr><td rowspan=\"2\">3</td><td>4</td></tr>\n<tr><td colspan=\"2\">5</td></tr>\n</table>\n|, HikiDoc.new("||>1||^2\n||^3||4\n||>5").to_html)
+    assert_equal(%Q|<table border=\"1\">\n<tr><td colspan=\"2\">1</td><td rowspan=\"2\">2\n</td></tr>\n<tr><td rowspan=\"2\">3</td><td>4\n</td></tr>\n<tr><td colspan=\"2\">5</td></tr>\n</table>\n|, HikiDoc.new("||>1||^2\n||^3||4\n||>5").to_html)
     assert_equal(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td>c</td></tr>\n<tr><td></td><td></td><td></td></tr>\n<tr><td>d</td><td>e</td><td>f</td></tr>\n</table>\n|, HikiDoc.new("||a||b||c||\n||||||||\n||d||e||f||").to_html)
   end
 
@@ -199,8 +195,8 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   end
 
   def test_pre_and_plugin
-    assert_equal(%Q|<pre>\n{{hoge}}\n</pre>\n|, HikiDoc.new(" {{hoge}}").to_html)
-    assert_equal(%Q|<pre>\n{{hoge}}\n</pre>\n|, HikiDoc.new("<<<\n{{hoge}}\n>>>").to_html)
+    assert_equal(%Q|<pre>{{hoge}}</pre>\n|, HikiDoc.new(" {{hoge}}").to_html)
+    assert_equal(%Q|<pre>{{hoge}}\n</pre>\n|, HikiDoc.new("<<<\n{{hoge}}\n>>>").to_html)
     assert_equal(%Q|<div class=\"plugin\">{{foo\n 1}}</div>\n|, HikiDoc.new("{{foo\n 1}}").to_html)
   end
 
