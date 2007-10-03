@@ -323,8 +323,8 @@ class HikiDoc
     if syntax
       begin
         convertor = Syntax::Convertors::HTML.for_syntax(syntax)
-        @outupt.preformatted convertor.convert(str)
-      rescue
+        @output.puts_html convertor.convert(str)
+      rescue NameError, RuntimeError
         @output.preformatted @output.text(str)
       end
     else
@@ -599,6 +599,10 @@ class HikiDoc
 
     def block_plugin(str)
       @f.puts %Q(<div class="plugin">{{#{escape_html(str)}}}</div>)
+    end
+
+    def puts_html(str)
+      @f.puts str
     end
 
     #

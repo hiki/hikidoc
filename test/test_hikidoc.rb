@@ -210,9 +210,9 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
   if Object.const_defined?(:Syntax)
 
     def test_syntax_ruby
-      assert_equal("<pre>\n<span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n", HikiDoc.new("<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>").to_html)
-      assert_equal("<pre>\n<span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n", HikiDoc.new("<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>").to_html)
-      assert_equal("<pre>\n<span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span>\n</pre>\n", HikiDoc.new("<<< ruby\n'a<\">b'\n>>>").to_html)
+      assert_equal("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n", HikiDoc.new("<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>").to_html)
+      assert_equal("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n", HikiDoc.new("<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>").to_html)
+      assert_equal("<pre><span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span>\n</pre>\n", HikiDoc.new("<<< ruby\n'a<\">b'\n>>>").to_html)
     end
   end
   
