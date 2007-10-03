@@ -100,12 +100,14 @@ class HikiDoc_Unit_Tests < Test::Unit::TestCase
     assert_equal("<pre>\\:</pre>\n", HikiDoc.new(' \:').to_html)
     assert_equal("<pre>foo</pre>\n", HikiDoc.new("\tfoo").to_html)
     assert_equal("<pre>foo\nbar</pre>\n", HikiDoc.new(" foo\n bar").to_html)
+    assert_equal("<pre>&lt;foo&gt;</pre>\n", HikiDoc.new(" <foo>").to_html)
   end
 
   def test_multi_pre
     assert_equal("<pre>foo\n</pre>\n", HikiDoc.new("<<<\nfoo\n>>>").to_html)
     assert_equal("<pre>foo\n bar\n</pre>\n", HikiDoc.new("<<<\nfoo\n bar\n>>>").to_html)
     assert_equal("<pre>foo\n</pre>\n<pre>bar\n</pre>\n", HikiDoc.new("<<<\nfoo\n>>>\n<<<\nbar\n>>>").to_html)
+    assert_equal("<pre>&lt;foo&gt;\n</pre>\n", HikiDoc.new("<<<\n<foo>\n>>>").to_html)
   end
 
   def test_comment

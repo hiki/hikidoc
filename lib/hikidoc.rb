@@ -307,7 +307,8 @@ class HikiDoc
 
   def compile_indented_pre(f)
     lines = f.span(INDENTED_PRE_RE)\
-        .map {|line| rstrip(line.sub(INDENTED_PRE_RE, "")) }
+        .map {|line| rstrip(line.sub(INDENTED_PRE_RE, "")) }\
+        .map {|line| @output.text(line) }
     @output.preformatted restore_plugin_block(lines.join("\n"))
   end
 
