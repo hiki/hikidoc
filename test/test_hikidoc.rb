@@ -2,7 +2,7 @@ require "test/unit"
 rootdir = "#{File::dirname(__FILE__)}/.."
 require "#{rootdir}/lib/hikidoc"
 
-class HikiDoc_Unit_Tests < Test::Unit::TestCase
+class HikiDocTestCase < Test::Unit::TestCase
   def test_plugin
     assert_convert("<div class=\"plugin\">{{hoge}}</div>\n",
                    "{{hoge}}")
