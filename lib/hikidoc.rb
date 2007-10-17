@@ -50,7 +50,7 @@ class HikiDoc
 
   def initialize(output, options = {})
     @output = output
-    @options = {:allow_bracket_inline_image => true}.merge(options)
+    @options = default_options.merge(options)
     @header_re = nil
     @level = options[:level] || 1
     @plugin_syntax = options[:plugin_syntax] || method(:valid_plugin_syntax?)
@@ -71,6 +71,13 @@ class HikiDoc
   end
 
   private
+
+  def default_options
+    {
+      :allow_bracket_inline_image => true,
+      :use_wiki_name => true,
+    }
+  end
 
   #
   # Plugin
@@ -376,7 +383,11 @@ class HikiDoc
       when mod = m[3]
         buf << compile_modifier(mod)
       when wiki_name = m[4]
-        buf << @output.hyperlink(wiki_name, @output.text(wiki_name))
+        if @options[:use_wiki_name]
+          buf << @output.wiki_name(wiki_name)
+        else
+          buf << @output.text(wiki_name)
+        end
       else
         raise "must not happen"
       end
@@ -630,6 +641,10 @@ class HikiDoc
 
     def hyperlink(uri, title)
       %Q(<a href="#{escape_html_param(uri)}">#{title}</a>)
+    end
+
+    def wiki_name(name)
+      hyperlink(name, text(name))
     end
 
     def image_hyperlink(uri, alt=nil)

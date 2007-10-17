@@ -203,6 +203,14 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "RSSPageName")
   end
 
+  def test_use_wiki_name_option
+    assert_convert("<p><a href=\"WikiName\">WikiName</a></p>\n",
+                   "WikiName")
+    assert_convert("<p>WikiName</p>\n",
+                   "WikiName",
+                   :use_wiki_name => false)
+  end
+
   def test_image_link
     assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|,
                    "[[http://hikiwiki.org/img.png]]")
