@@ -38,7 +38,7 @@ end
 
 class HikiDoc
   VERSION = "0.0.1" # FIXME
-  Revision = %q$Rev$
+  Revision = %q$Rev$ # Is it needed?
 
   def HikiDoc.to_html(src, options = {})
     new(HTMLOutput.new(">"), options).compile(src)
