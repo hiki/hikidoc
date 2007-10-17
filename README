@@ -12,10 +12,10 @@ HikiDoc requires Ruby 1.8.2 or later.
 
 !! Download
 
-Get from the subversion repository http://projects.netlab.jp/svn/hikidoc/ .
+Get from the subversion repository http://hikidoc.rubyforge.org/svn/ .
 
  (eg.)
- svn co http://projects.netlab.jp/svn/hikidoc/trunk/ hikidoc
+ svn co http://hikidoc.rubyforge.org/svn/trunk/ hikidoc
 
 !! Installation 
 

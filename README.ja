@@ -11,11 +11,11 @@ HikiDoc の実行には Ruby 1.8.2 以降が必要です。
 
 !! ダウンロード
 
-Subversion レポジトリ http://projects.netlab.jp/svn/hikidoc/ から取得して
+Subversion レポジトリ http://hikidoc.rubyforge.org/svn/ から取得して
 ください。
 
  (例)
- svn co http://projects.netlab.jp/svn/hikidoc/trunk/ hikidoc
+ svn co http://hikidoc.rubyforge.org/svn/trunk/ hikidoc
 
 !! インストール
 
