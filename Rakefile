@@ -1,17 +1,47 @@
+# -*- ruby -*-
+
 require 'rubygems'
-require 'rake/gempackagetask'
-require 'rake/clean'
-require 'rake/testtask'
+require 'hoe'
 
-spec = Gem::Specification.load('hikidoc.gemspec')
+require 'find'
 
-Rake::GemPackageTask.new(spec) do |pkg|
-	pkg.need_zip = true
-	pkg.need_tar = true
+base_dir = File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(base_dir, 'lib'))
+require 'hikidoc'
+
+truncate_base_dir = Proc.new do |x|
+  x.gsub(/\A#{Regexp.escape(base_dir + File::SEPARATOR)}/, '')
 end
 
-Rake::TestTask.new do |t|
-	t.libs << 'lib'
-	t.test_files = FileList['test/test*.rb']
-	t.verbose = true
+manifest = File.join(base_dir, "Manifest.txt")
+manifest_contents = []
+base_dir_included_components = %w(COPYING README README.ja Rakefile
+                                  TextFormattingRules TextFormattingRules.ja
+                                  setup.rb)
+excluded_components = %w(.svn doc log pkg)
+Find.find(base_dir) do |target|
+  target = truncate_base_dir[target]
+  components = target.split(File::SEPARATOR)
+  if components.size == 1 and !File.directory?(target)
+    next unless base_dir_included_components.include?(components[0])
+  end
+  Find.prune if (excluded_components - components) != excluded_components
+  manifest_contents << target if File.file?(target)
+end
+
+File.open(manifest, "w") do |f|
+  f.puts manifest_contents.sort.join("\n")
+end
+at_exit do
+  FileUtils.rm_f(manifest)
+end
+
+project = Hoe.new('hikidoc', HikiDoc::VERSION) do |project|
+  project.author = ['Kazuhiko']
+  project.email = ['kazuhiko@fdiary.net']
+  project.description = project.paragraphs_of('README', 2).join
+  project.summary = project.description.split(/(\.)/, 3)[0, 2].join
+  project.url = 'http://rubyforge.org/projects/hikidoc/'
+  project.test_globs = ['test/test_*.rb']
+  project.rdoc_pattern = /(?:^(?:lib|bin)|\AREADME\z)/
 end

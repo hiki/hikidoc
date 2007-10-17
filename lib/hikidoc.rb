@@ -37,6 +37,7 @@ rescue LoadError
 end
 
 class HikiDoc
+  VERSION = "0.0.1" # FIXME
   Revision = %q$Rev$
 
   def HikiDoc.to_html(src, options = {})
