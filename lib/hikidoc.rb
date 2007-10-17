@@ -688,7 +688,8 @@ class HikiDoc
       end
       return nil if @eof_p   # to avoid ARGF blocking.
       line = @input.gets
-      @eof_p = true unless line
+      line = line.sub(/\r\n/, "\n") if line
+      @eof_p = line.nil?
       @lineno += 1
       line
     end
