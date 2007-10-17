@@ -176,6 +176,33 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "[[&]]")
   end
 
+  def test_wiki_name
+    assert_convert("<p><a href=\"WikiName\">WikiName</a></p>\n",
+                   "WikiName")
+    assert_convert("<p><a href=\"HogeRule1\">HogeRule1</a></p>\n",
+                   "HogeRule1")
+
+    assert_convert("<p><a href=\"WikiName1WikiName2\">WikiName1WikiName2</a></p>\n",
+                   "WikiName1WikiName2")
+    assert_convert("<p><a href=\"WikiName1\">WikiName1</a> " +
+                      "<a href=\"WikiName2\">WikiName2</a></p>\n",
+                   "WikiName1 WikiName2")
+
+    assert_convert("<p>NOTWIKINAME</p>\n",
+                   "NOTWIKINAME")
+    assert_convert("<p>NOT_WIKI_NAME</p>\n",
+                   "NOT_WIKI_NAME")
+    assert_convert("<p>WikiNAME</p>\n",
+                   "WikiNAME")
+    assert_convert("<p>fooWikiNAME</p>\n",
+                   "fooWikiNAME")
+
+    assert_convert("<p>RSSPage</p>\n",
+                   "RSSPage")
+    assert_convert("<p><a href=\"RSSPageName\">RSSPageName</a></p>\n",
+                   "RSSPageName")
+  end
+
   def test_image_link
     assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|,
                    "[[http://hikiwiki.org/img.png]]")

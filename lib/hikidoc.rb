@@ -357,11 +357,13 @@ class HikiDoc
 
   BRACKET_LINK_RE = /\[\[.+\]\]/
   URI_RE = /(?:https?|ftp|file|mailto):[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
+  WIKI_NAME_RE = /\b(?:[A-Z]+[a-z\d]+){2,}\b/
 
   def compile_inline(str)
     re = / (#{BRACKET_LINK_RE})
          | (#{URI_RE})
          | (#{MODIFIER_RE})
+         | (#{WIKI_NAME_RE})
          /xo
     buf = ""
     while m = re.match(str)
@@ -373,6 +375,8 @@ class HikiDoc
         buf << compile_uri_autolink(uri)
       when mod = m[3]
         buf << compile_modifier(mod)
+      when wiki_name = m[4]
+        buf << @output.hyperlink(wiki_name, @output.text(wiki_name))
       else
         raise "must not happen"
       end
