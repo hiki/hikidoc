@@ -4,200 +4,292 @@ require "#{rootdir}/lib/hikidoc"
 
 class HikiDoc_Unit_Tests < Test::Unit::TestCase
   def test_plugin
-    assert_equal(%Q|<div class="plugin">{{hoge}}</div>\n|, HikiDoc.new("{{hoge}}").to_html)
-    assert_equal(%Q|<p>a<span class="plugin">{{hoge}}</span>b</p>\n|, HikiDoc.new("a{{hoge}}b").to_html)
-    assert_equal(%Q|<p>\\<span class="plugin">{{hoge}}</span></p>\n|, HikiDoc.new("\\{{hoge}}").to_html)
-    assert_equal(%Q|<p>a{{hoge</p>\n|, HikiDoc.new("a{{hoge").to_html)
-    assert_equal(%Q|<p>hoge}}b</p>\n|, HikiDoc.new("hoge}}b").to_html)
-    assert_equal(%Q|<p><span class="plugin">{{hoge}}</span>\na</p>\n|, HikiDoc.new("{{hoge}}\na").to_html)
-    assert_equal(%Q|<div class="plugin">{{hoge}}</div>\n<p>a</p>\n|, HikiDoc.new("{{hoge}}\n\na").to_html)
+    assert_convert("<div class=\"plugin\">{{hoge}}</div>\n",
+                   "{{hoge}}")
+    assert_convert("<p>a<span class=\"plugin\">{{hoge}}</span>b</p>\n",
+                   "a{{hoge}}b")
+    assert_convert("<p>\\<span class=\"plugin\">{{hoge}}</span></p>\n",
+                   "\\{{hoge}}")
+    assert_convert("<p>a{{hoge</p>\n",
+                   "a{{hoge")
+    assert_convert("<p>hoge}}b</p>\n",
+                   "hoge}}b")
+    assert_convert("<p><span class=\"plugin\">{{hoge}}</span>\na</p>\n",
+                   "{{hoge}}\na")
+    assert_convert("<div class=\"plugin\">{{hoge}}</div>\n<p>a</p>\n",
+                   "{{hoge}}\n\na")
   end
 
   def test_plugin_with_quotes
-    assert_equal(%Q|<div class="plugin">{{hoge(\"}}\")}}</div>\n|, HikiDoc.new('{{hoge("}}")}}').to_html)
-    assert_equal(%Q|<div class="plugin">{{hoge(\'}}\')}}</div>\n|, HikiDoc.new("{{hoge('}}')}}").to_html)
-    assert_equal(%Q|<div class="plugin">{{hoge(\'\n}}\n\')}}</div>\n|, HikiDoc.new("{{hoge('\n}}\n')}}").to_html)
+    assert_convert("<div class=\"plugin\">{{hoge(\"}}\")}}</div>\n",
+                   '{{hoge("}}")}}')
+    assert_convert("<div class=\"plugin\">{{hoge(\'}}\')}}</div>\n",
+                   "{{hoge('}}')}}")
+    assert_convert("<div class=\"plugin\">{{hoge(\'\n}}\n\')}}</div>\n",
+                   "{{hoge('\n}}\n')}}")
   end
 
   def test_plugin_with_meta_char
-    assert_equal(%Q|<div class="plugin">{{hoge(\"a\\"b")}}</div>\n|, HikiDoc.new('{{hoge("a\\"b")}}').to_html)
+    assert_convert("<div class=\"plugin\">{{hoge(\"a\\\"b\")}}</div>\n",
+                   '{{hoge("a\\"b")}}')
   end
 
   def test_plugin_with_custom_syntax
-    assert_equal(%Q|<p>{{&lt;&lt;"End"\nfoo's bar\nEnd\n}}</p>\n|,
-                 HikiDoc.new(%Q!{{<<"End"\nfoo's bar\nEnd\n}}!).to_html)
-    options = { :plugin_syntax => method(:custom_valid_plugin_syntax?) }
-    ex = %Q|<div class="plugin">{{&lt;&lt;"End"\nfoo's bar\nEnd\n}}</div>\n|
-    assert_equal ex,
-                 HikiDoc.new(%Q!{{<<"End"\nfoo's bar\nEnd\n}}!, options).to_html
-    ex = %Q|<div class="plugin">{{&lt;&lt;"End"\nfoo\nEnd}}</div>\n|
-    assert_equal ex, HikiDoc.new(%Q!{{<<"End"\nfoo\nEnd}}!, options).to_html
+    assert_convert("<p>{{&lt;&lt;\"End\"\nfoo's bar\nEnd\n}}</p>\n",
+                   "{{<<\"End\"\nfoo's bar\nEnd\n}}")
+
+    options = {:plugin_syntax => method(:custom_valid_plugin_syntax?)}
+    assert_convert(%Q|<div class="plugin">{{&lt;&lt;"End"\nfoo's bar\nEnd\n}}</div>\n|,
+                   %Q!{{<<"End"\nfoo's bar\nEnd\n}}!,
+                   options)
+    assert_convert(%Q|<div class="plugin">{{&lt;&lt;"End"\nfoo\nEnd}}</div>\n|,
+                   %Q!{{<<"End"\nfoo\nEnd}}!,
+                   options)
   end
 
   def test_blockquote
-    assert_equal("<blockquote><p>hoge</p>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n|).to_html)
-    assert_equal("<blockquote><p>hoge\nfuga</p>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n""fuga\n|).to_html)
-    assert_equal("<blockquote><p>hoge</p>\n<blockquote><p>fuga</p>\n</blockquote>\n</blockquote>\n", HikiDoc.new(%Q|""hoge\n"" ""fuga\n|).to_html)
-    assert_equal("<blockquote><h1>hoge</h1>\n</blockquote>\n", HikiDoc.new(%Q|"" ! hoge\n|).to_html)
-    assert_equal("<blockquote><p>foo\nbar</p>\n<p>foo</p>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""bar\n""\n""foo|).to_html)
-    assert_equal("<blockquote><p>foo\nbar</p>\n<h1>foo</h1>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""bar\n""!foo|).to_html)
-    assert_equal("<blockquote><p>foo\nbar</p>\n<pre>baz</pre>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n"" bar\n""  baz|).to_html)
-    assert_equal("<blockquote><p>foo\nbar</p>\n<pre>baz</pre>\n</blockquote>\n", HikiDoc.new(%Q|""foo\n""\tbar\n""\t\tbaz|).to_html)
+    assert_convert("<blockquote><p>hoge</p>\n</blockquote>\n",
+                   %Q|""hoge\n|)
+    assert_convert("<blockquote><p>hoge\nfuga</p>\n</blockquote>\n",
+                   %Q|""hoge\n""fuga\n|)
+    assert_convert("<blockquote><p>hoge</p>\n<blockquote><p>fuga</p>\n</blockquote>\n</blockquote>\n",
+                   %Q|""hoge\n"" ""fuga\n|)
+    assert_convert("<blockquote><h1>hoge</h1>\n</blockquote>\n",
+                   %Q|"" ! hoge\n|)
+    assert_convert("<blockquote><p>foo\nbar</p>\n<p>foo</p>\n</blockquote>\n",
+                   %Q|""foo\n""bar\n""\n""foo|)
+    assert_convert("<blockquote><p>foo\nbar</p>\n<h1>foo</h1>\n</blockquote>\n",
+                   %Q|""foo\n""bar\n""!foo|)
+    assert_convert("<blockquote><p>foo\nbar</p>\n<pre>baz</pre>\n</blockquote>\n",
+                   %Q|""foo\n"" bar\n""  baz|)
+    assert_convert("<blockquote><p>foo\nbar</p>\n<pre>baz</pre>\n</blockquote>\n",
+                   %Q|""foo\n""\tbar\n""\t\tbaz|)
   end
 
   def test_header
-    assert_equal("<h1>hoge</h1>\n", HikiDoc.new("!hoge").to_html)
-    assert_equal("<h2>hoge</h2>\n", HikiDoc.new("!! hoge").to_html)
-    assert_equal("<h3>hoge</h3>\n", HikiDoc.new("!!!hoge").to_html)
-    assert_equal("<h4>hoge</h4>\n", HikiDoc.new("!!!! hoge").to_html)
-    assert_equal("<h5>hoge</h5>\n", HikiDoc.new("!!!!!hoge").to_html)
-    assert_equal("<h6>hoge</h6>\n", HikiDoc.new("!!!!!! hoge").to_html)
-    assert_equal("<h6>! hoge</h6>\n", HikiDoc.new("!!!!!!! hoge").to_html)
-    assert_equal("<h1>foo</h1>\n<h2>bar</h2>\n", HikiDoc.new("!foo\n!!bar").to_html)
+    assert_convert("<h1>hoge</h1>\n", "!hoge")
+    assert_convert("<h2>hoge</h2>\n", "!! hoge")
+    assert_convert("<h3>hoge</h3>\n", "!!!hoge")
+    assert_convert("<h4>hoge</h4>\n", "!!!! hoge")
+    assert_convert("<h5>hoge</h5>\n", "!!!!!hoge")
+    assert_convert("<h6>hoge</h6>\n", "!!!!!! hoge")
+    assert_convert("<h6>! hoge</h6>\n", "!!!!!!! hoge")
+
+    assert_convert("<h1>foo</h1>\n<h2>bar</h2>\n",
+                   "!foo\n!!bar")
   end
 
   def test_list
-    assert_equal("<ul>\n<li>foo</li>\n</ul>\n", HikiDoc.new("* foo").to_html)
-    assert_equal("<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>\n", HikiDoc.new("* foo\n* bar").to_html)
-    assert_equal("<ul>\n<li>foo<ul>\n<li>bar</li>\n</ul></li>\n</ul>\n", HikiDoc.new("* foo\n** bar").to_html)
-    assert_equal("<ul>\n<li>foo<ul>\n<li>foo</li>\n</ul></li>\n<li>bar</li>\n</ul>\n", HikiDoc.new("* foo\n** foo\n* bar").to_html)
-    assert_equal("<ul>\n<li>foo<ol>\n<li>foo</li>\n</ol></li>\n<li>bar</li>\n</ul>\n", HikiDoc.new("* foo\n## foo\n* bar").to_html)
-    assert_equal("<ul>\n<li>foo</li>\n</ul><ol>\n<li>bar</li>\n</ol>\n", HikiDoc.new("* foo\n# bar").to_html)
+    assert_convert("<ul>\n<li>foo</li>\n</ul>\n",
+                   "* foo")
+    assert_convert("<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>\n",
+                   "* foo\n* bar")
+    assert_convert("<ul>\n<li>foo<ul>\n<li>bar</li>\n</ul></li>\n</ul>\n",
+                   "* foo\n** bar")
+    assert_convert("<ul>\n<li>foo<ul>\n<li>foo</li>\n</ul></li>\n<li>bar</li>\n</ul>\n",
+                   "* foo\n** foo\n* bar")
+    assert_convert("<ul>\n<li>foo<ol>\n<li>foo</li>\n</ol></li>\n<li>bar</li>\n</ul>\n",
+                   "* foo\n## foo\n* bar")
+    assert_convert("<ul>\n<li>foo</li>\n</ul><ol>\n<li>bar</li>\n</ol>\n",
+                   "* foo\n# bar")
   end
 
   def test_list_skip
-    assert_equal("<ul>\n<li>foo<ul>\n<li><ul>\n<li>foo</li>\n</ul></li>\n</ul></li>\n<li>bar</li>\n</ul>\n", HikiDoc.new("* foo\n*** foo\n* bar").to_html)
-    assert_equal("<ol>\n<li>foo\<ol>\n<li><ol>\n<li>bar</li>\n<li>baz</li>\n</ol></li>\n</ol></li>\n</ol>\n", HikiDoc.new("# foo\n### bar\n###baz").to_html)
+    assert_convert("<ul>\n<li>foo<ul>\n<li><ul>\n<li>foo</li>\n</ul></li>\n</ul></li>\n<li>bar</li>\n</ul>\n",
+                   "* foo\n*** foo\n* bar")
+    assert_convert("<ol>\n<li>foo\<ol>\n<li><ol>\n<li>bar</li>\n<li>baz</li>\n</ol></li>\n</ol></li>\n</ol>\n",
+                   "# foo\n### bar\n###baz")
   end
 
   def test_hrules
-    assert_equal("<hr />\n", HikiDoc.new("----").to_html)
-    assert_equal("<p>----a</p>\n", HikiDoc.new("----a").to_html)
+    assert_convert("<hr />\n", "----")
+    assert_convert("<p>----a</p>\n", "----a")
   end
 
   def test_pre
-    assert_equal("<pre>foo</pre>\n", HikiDoc.new(" foo").to_html)
-    assert_equal("<pre>\\:</pre>\n", HikiDoc.new(' \:').to_html)
-    assert_equal("<pre>foo</pre>\n", HikiDoc.new("\tfoo").to_html)
-    assert_equal("<pre>foo\nbar</pre>\n", HikiDoc.new(" foo\n bar").to_html)
-    assert_equal("<pre>&lt;foo&gt;</pre>\n", HikiDoc.new(" <foo>").to_html)
+    assert_convert("<pre>foo</pre>\n",
+                   " foo")
+    assert_convert("<pre>\\:</pre>\n",
+                   ' \:')
+    assert_convert("<pre>foo</pre>\n",
+                   "\tfoo")
+    assert_convert("<pre>foo\nbar</pre>\n",
+                   " foo\n bar")
+    assert_convert("<pre>&lt;foo&gt;</pre>\n",
+                   " <foo>")
   end
 
   def test_multi_pre
-    assert_equal("<pre>foo\n</pre>\n", HikiDoc.new("<<<\nfoo\n>>>").to_html)
-    assert_equal("<pre>foo\n bar\n</pre>\n", HikiDoc.new("<<<\nfoo\n bar\n>>>").to_html)
-    assert_equal("<pre>foo\n</pre>\n<pre>bar\n</pre>\n", HikiDoc.new("<<<\nfoo\n>>>\n<<<\nbar\n>>>").to_html)
-    assert_equal("<pre>&lt;foo&gt;\n</pre>\n", HikiDoc.new("<<<\n<foo>\n>>>").to_html)
+    assert_convert("<pre>foo\n</pre>\n",
+                   "<<<\nfoo\n>>>")
+    assert_convert("<pre>foo\n bar\n</pre>\n",
+                   "<<<\nfoo\n bar\n>>>")
+    assert_convert("<pre>foo\n</pre>\n<pre>bar\n</pre>\n",
+                   "<<<\nfoo\n>>>\n<<<\nbar\n>>>")
+    assert_convert("<pre>&lt;foo&gt;\n</pre>\n",
+                   "<<<\n<foo>\n>>>")
   end
 
   def test_comment
-    assert_equal("", HikiDoc.new("// foo").to_html)
-    assert_equal("", HikiDoc.new("// foo\n").to_html)
+    assert_convert("", "// foo")
+    assert_convert("", "// foo\n")
   end
 
   def test_paragraph
-    assert_equal("<p>foo</p>\n", HikiDoc.new("foo").to_html)
+    assert_convert("<p>foo</p>\n", "foo")
   end
 
   def test_escape
-    assert_equal(%Q|<p>\\"\\"foo</p>\n|, HikiDoc.new(%q|\"\"foo|).to_html)
+    assert_convert(%Q|<p>\\"\\"foo</p>\n|,
+                   %q|\"\"foo|)
   end
 
   def test_link
-    assert_equal(%Q|<p><a href="http://hikiwiki.org/">http://hikiwiki.org/</a></p>\n|, HikiDoc.new("http://hikiwiki.org/").to_html)
-    assert_equal(%Q|<p><a href="http://hikiwiki.org/">http://hikiwiki.org/</a></p>\n|, HikiDoc.new("[[http://hikiwiki.org/]]").to_html)
-    assert_equal(%Q|<p><a href="http://hikiwiki.org/">Hiki</a></p>\n|, HikiDoc.new("[[Hiki|http://hikiwiki.org/]]").to_html)
-    assert_equal(%Q|<p><a href="/hikiwiki.html">Hiki</a></p>\n|, HikiDoc.new("[[Hiki|http:/hikiwiki.html]]").to_html)
-    assert_equal(%Q|<p><a href="hikiwiki.html">Hiki</a></p>\n|, HikiDoc.new("[[Hiki|http:hikiwiki.html]]").to_html)
-    assert_equal(%Q|<p><a href="http://hikiwiki.org/img.png">img</a></p>\n|, HikiDoc.new("[[img|http://hikiwiki.org/img.png]]").to_html)
-    assert_equal(%Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|, HikiDoc.new("[[http://hikiwiki.org/img.png]]").to_html)
-    assert_equal(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|, HikiDoc.new("http://hikiwiki.org/img.png").to_html)
-    assert_equal(%Q|<p><img src="/img.png" alt="img.png" /></p>\n|, HikiDoc.new("http:/img.png").to_html)
-    assert_equal(%Q|<p><img src="img.png" alt="img.png" /></p>\n|, HikiDoc.new("http:img.png").to_html)
-    assert_equal(%Q|<p><a href="%CB%EE">Tuna</a></p>\n|, HikiDoc.new("[[Tuna|%CB%EE]]").to_html)
-    assert_equal(%Q|<p><a href="&quot;&quot;">""</a></p>\n|, HikiDoc.new('[[""]]').to_html)
-    assert_equal(%Q|<p><a href="%22">%22</a></p>\n|, HikiDoc.new("[[%22]]").to_html)
-    assert_equal(%Q|<p><a href="&amp;">&amp;</a></p>\n|, HikiDoc.new("[[&]]").to_html)
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/">http://hikiwiki.org/</a></p>\n|,
+                   "http://hikiwiki.org/")
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/">http://hikiwiki.org/</a></p>\n|,
+                   "[[http://hikiwiki.org/]]")
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/">Hiki</a></p>\n|,
+                   "[[Hiki|http://hikiwiki.org/]]")
+    assert_convert(%Q|<p><a href="/hikiwiki.html">Hiki</a></p>\n|,
+                   "[[Hiki|http:/hikiwiki.html]]")
+    assert_convert(%Q|<p><a href="hikiwiki.html">Hiki</a></p>\n|,
+                   "[[Hiki|http:hikiwiki.html]]")
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/img.png">img</a></p>\n|,
+                   "[[img|http://hikiwiki.org/img.png]]")
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|,
+                   "[[http://hikiwiki.org/img.png]]")
+    assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|,
+                   "http://hikiwiki.org/img.png")
+    assert_convert(%Q|<p><img src="/img.png" alt="img.png" /></p>\n|,
+                   "http:/img.png")
+    assert_convert(%Q|<p><img src="img.png" alt="img.png" /></p>\n|,
+                   "http:img.png")
+    assert_convert(%Q|<p><a href="%CB%EE">Tuna</a></p>\n|,
+                   "[[Tuna|%CB%EE]]")
+    assert_convert(%Q|<p><a href="&quot;&quot;">""</a></p>\n|,
+                   '[[""]]')
+    assert_convert(%Q|<p><a href="%22">%22</a></p>\n|,
+                   "[[%22]]")
+    assert_convert(%Q|<p><a href="&amp;">&amp;</a></p>\n|,
+                   "[[&]]")
   end
 
   def test_definition
-    assert_equal("<dl>\n<dt>a</dt>\n<dd>b</dd>\n</dl>\n", HikiDoc.new(":a:b").to_html)
-    assert_equal("<dl>\n<dt>a</dt>\n<dd>b\n</dd>\n<dd>c</dd>\n</dl>\n", HikiDoc.new(":a:b\n::c").to_html)
-    assert_equal("<dl>\n<dt>a\\</dt>\n<dd>b:c</dd>\n</dl>\n", HikiDoc.new(':a\:b:c').to_html)
-    assert_equal("<dl>\n<dt>a</dt>\n<dd>b\\:c</dd>\n</dl>\n", HikiDoc.new(':a:b\:c').to_html)
-    assert_equal("<dl>\n<dt>a</dt>\n<dd>b:c</dd>\n</dl>\n", HikiDoc.new(":a:b:c").to_html)
+    assert_convert("<dl>\n<dt>a</dt>\n<dd>b</dd>\n</dl>\n",
+                   ":a:b")
+    assert_convert("<dl>\n<dt>a</dt>\n<dd>b\n</dd>\n<dd>c</dd>\n</dl>\n",
+                   ":a:b\n::c")
+    assert_convert("<dl>\n<dt>a\\</dt>\n<dd>b:c</dd>\n</dl>\n",
+                   ':a\:b:c')
+    assert_convert("<dl>\n<dt>a</dt>\n<dd>b\\:c</dd>\n</dl>\n",
+                   ':a:b\:c')
+    assert_convert("<dl>\n<dt>a</dt>\n<dd>b:c</dd>\n</dl>\n",
+                   ":a:b:c")
   end
 
   def test_definition_title_only
-    assert_equal("<dl>\n<dt>a</dt>\n</dl>\n", HikiDoc.new(":a:").to_html)
+    assert_convert("<dl>\n<dt>a</dt>\n</dl>\n",
+                   ":a:")
   end
 
   def test_definition_description_only
-    assert_equal("<dl>\n<dd>b</dd>\n</dl>\n", HikiDoc.new("::b").to_html)
+    assert_convert("<dl>\n<dd>b</dd>\n</dl>\n",
+                   "::b")
   end
 
   def test_definition_with_link
-    assert_equal(%Q|<dl>\n<dt><a href="http://hikiwiki.org/">Hiki</a></dt>\n<dd>Website</dd>\n</dl>\n|, HikiDoc.new(":[[Hiki|http://hikiwiki.org/]]:Website").to_html)
+    assert_convert(%Q|<dl>\n<dt><a href="http://hikiwiki.org/">Hiki</a></dt>\n<dd>Website</dd>\n</dl>\n|,
+                   ":[[Hiki|http://hikiwiki.org/]]:Website")
   end
 
   def test_definition_with_modifier
-    assert_equal(%Q|<dl>\n<dt><strong>foo</strong></dt>\n<dd>bar</dd>\n</dl>\n|, HikiDoc.new(":'''foo''':bar").to_html)
+    assert_convert(%Q|<dl>\n<dt><strong>foo</strong></dt>\n<dd>bar</dd>\n</dl>\n|,
+                   ":'''foo''':bar")
   end
 
   def test_table
-    assert_equal(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new("||a||b").to_html)
-    assert_equal(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new("||a||b||").to_html)
-    assert_equal(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|, HikiDoc.new("||a||b||").to_html)
-    assert_equal(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td> </td></tr>\n</table>\n|, HikiDoc.new("||a||b|| ").to_html)
-    assert_equal(%Q|<table border=\"1\">\n<tr><th>a</th><td>b</td></tr>\n</table>\n|, HikiDoc.new("||!a||b||").to_html)
-    assert_equal(%Q|<table border=\"1\">\n<tr><td colspan=\"2\">1</td><td rowspan=\"2\">2\n</td></tr>\n<tr><td rowspan=\"2\">3</td><td>4\n</td></tr>\n<tr><td colspan=\"2\">5</td></tr>\n</table>\n|, HikiDoc.new("||>1||^2\n||^3||4\n||>5").to_html)
-    assert_equal(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td>c</td></tr>\n<tr><td></td><td></td><td></td></tr>\n<tr><td>d</td><td>e</td><td>f</td></tr>\n</table>\n|, HikiDoc.new("||a||b||c||\n||||||||\n||d||e||f||").to_html)
+    assert_convert(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|,
+                   "||a||b")
+    assert_convert(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|,
+                   "||a||b||")
+    assert_convert(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td></tr>\n</table>\n|,
+                   "||a||b||")
+    assert_convert(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td> </td></tr>\n</table>\n|,
+                   "||a||b|| ")
+    assert_convert(%Q|<table border=\"1\">\n<tr><th>a</th><td>b</td></tr>\n</table>\n|,
+                   "||!a||b||")
+    assert_convert(%Q|<table border=\"1\">\n<tr><td colspan=\"2\">1</td><td rowspan=\"2\">2\n</td></tr>\n<tr><td rowspan=\"2\">3</td><td>4\n</td></tr>\n<tr><td colspan=\"2\">5</td></tr>\n</table>\n|,
+                   "||>1||^2\n||^3||4\n||>5")
+    assert_convert(%Q|<table border=\"1\">\n<tr><td>a</td><td>b</td><td>c</td></tr>\n<tr><td></td><td></td><td></td></tr>\n<tr><td>d</td><td>e</td><td>f</td></tr>\n</table>\n|,
+                   "||a||b||c||\n||||||||\n||d||e||f||")
   end
 
   def test_table_with_modifier
-    assert_equal(%Q!<table border=\"1\">\n<tr><td>'''</td><td>'''</td><td>bar</td></tr>\n</table>\n!, HikiDoc.new("||'''||'''||bar").to_html)
-    assert_equal(%Q!<table border=\"1\">\n<tr><td>'''\\</td><td>'''</td><td>bar</td></tr>\n</table>\n!, HikiDoc.new("||'''\\||'''||bar").to_html)
+    assert_convert("<table border=\"1\">\n<tr><td>'''</td><td>'''</td><td>bar</td></tr>\n</table>\n",
+                   "||'''||'''||bar")
+    assert_convert("<table border=\"1\">\n<tr><td>'''\\</td><td>'''</td><td>bar</td></tr>\n</table>\n",
+                   "||'''\\||'''||bar")
   end
 
   def test_modifier
-    assert_equal("<p><strong>foo</strong></p>\n", HikiDoc.new("'''foo'''").to_html)
-    assert_equal("<p><em>foo</em></p>\n", HikiDoc.new("''foo''").to_html)
-    assert_equal("<p><del>foo</del></p>\n", HikiDoc.new("==foo==").to_html)
-    assert_equal("<p><em>foo==bar</em>baz==</p>\n", HikiDoc.new("''foo==bar''baz==").to_html)
-    assert_equal("<p><strong>foo</strong> and <strong>bar</strong></p>\n", HikiDoc.new("'''foo''' and '''bar'''").to_html)
-    assert_equal("<p><em>foo</em> and <em>bar</em></p>\n", HikiDoc.new("''foo'' and ''bar''").to_html)
+    assert_convert("<p><strong>foo</strong></p>\n",
+                   "'''foo'''")
+    assert_convert("<p><em>foo</em></p>\n",
+                   "''foo''")
+    assert_convert("<p><del>foo</del></p>\n",
+                   "==foo==")
+    assert_convert("<p><em>foo==bar</em>baz==</p>\n",
+                   "''foo==bar''baz==")
+    assert_convert("<p><strong>foo</strong> and <strong>bar</strong></p>\n",
+                   "'''foo''' and '''bar'''")
+    assert_convert("<p><em>foo</em> and <em>bar</em></p>\n",
+                   "''foo'' and ''bar''")
   end
 
   def test_nested_modifier
-    assert_equal("<p><em><del>foo</del></em></p>\n", HikiDoc.new("''==foo==''").to_html)
-    assert_equal("<p><del><em>foo</em></del></p>\n", HikiDoc.new("==''foo''==").to_html)
+    assert_convert("<p><em><del>foo</del></em></p>\n",
+                   "''==foo==''")
+    assert_convert("<p><del><em>foo</em></del></p>\n",
+                   "==''foo''==")
   end
 
   def test_modifier_and_link
-    assert_equal(%Q|<p><a href="http://hikiwiki.org/"><strong>Hiki</strong></a></p>\n|, HikiDoc.new("[['''Hiki'''|http://hikiwiki.org/]]").to_html)
+    assert_convert("<p><a href=\"http://hikiwiki.org/\"><strong>Hiki</strong></a></p>\n",
+                   "[['''Hiki'''|http://hikiwiki.org/]]")
   end
 
   def test_pre_and_plugin
-    assert_equal(%Q|<pre>{{hoge}}</pre>\n|, HikiDoc.new(" {{hoge}}").to_html)
-    assert_equal(%Q|<pre>{{hoge}}\n</pre>\n|, HikiDoc.new("<<<\n{{hoge}}\n>>>").to_html)
-    assert_equal(%Q|<div class=\"plugin\">{{foo\n 1}}</div>\n|, HikiDoc.new("{{foo\n 1}}").to_html)
+    assert_convert(%Q|<pre>{{hoge}}</pre>\n|,
+                   " {{hoge}}")
+    assert_convert(%Q|<pre>{{hoge}}\n</pre>\n|,
+                   "<<<\n{{hoge}}\n>>>")
+    assert_convert("<div class=\"plugin\">{{foo\n 1}}</div>\n",
+                   "{{foo\n 1}}")
   end
 
   def test_plugin_in_modifier
-    assert_equal(%Q|<p><strong><span class="plugin">{{foo}}</span></strong></p>\n|, HikiDoc.new("'''{{foo}}'''").to_html)
+    assert_convert("<p><strong><span class=\"plugin\">{{foo}}</span></strong></p>\n",
+                   "'''{{foo}}'''")
   end
 
   if Object.const_defined?(:Syntax)
 
     def test_syntax_ruby
-      assert_equal("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n", HikiDoc.new("<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>").to_html)
-      assert_equal("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n", HikiDoc.new("<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>").to_html)
-      assert_equal("<pre><span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span>\n</pre>\n", HikiDoc.new("<<< ruby\n'a<\">b'\n>>>").to_html)
+      assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n",
+                     "<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
+      assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n",
+                     "<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
+      assert_convert("<pre><span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span>\n</pre>\n",
+                     "<<< ruby\n'a<\">b'\n>>>")
     end
   end
-  
+
   private
-  
+  def assert_convert(expected, markup, options={}, message=nil)
+    assert_equal(expected, HikiDoc.to_xhtml(markup, options), message)
+  end
+
   def custom_valid_plugin_syntax?(code)
     eval("BEGIN {return true}\n#{code}", nil, "(plugin)", 0)
   rescue SyntaxError
