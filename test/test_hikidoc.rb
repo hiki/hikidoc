@@ -97,7 +97,7 @@ class HikiDocTestCase < Test::Unit::TestCase
   def test_list_skip
     assert_convert("<ul>\n<li>foo<ul>\n<li><ul>\n<li>foo</li>\n</ul></li>\n</ul></li>\n<li>bar</li>\n</ul>\n",
                    "* foo\n*** foo\n* bar")
-    assert_convert("<ol>\n<li>foo\<ol>\n<li><ol>\n<li>bar</li>\n<li>baz</li>\n</ol></li>\n</ol></li>\n</ol>\n",
+    assert_convert("<ol>\n<li>foo<ol>\n<li><ol>\n<li>bar</li>\n<li>baz</li>\n</ol></li>\n</ol></li>\n</ol>\n",
                    "# foo\n### bar\n###baz")
   end
 
