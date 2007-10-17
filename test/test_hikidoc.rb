@@ -3,26 +3,6 @@ rootdir = "#{File::dirname(__FILE__)}/.."
 require "#{rootdir}/lib/hikidoc"
 
 class HikiDoc_Unit_Tests < Test::Unit::TestCase
-
-  class TMP
-    def initialize(src, options)
-      @src = src
-      @options = options
-    end
-
-    def to_html
-      ::HikiDoc.to_xhtml(@src, @options)
-    end
-  end
-      
-  class HikiDoc
-    def HikiDoc.new(src, options = {})
-      TMP.new(src, options)
-    end
-  end
-
-  HikiDocTest = HikiDoc
-
   def test_plugin
     assert_equal(%Q|<div class="plugin">{{hoge}}</div>\n|, HikiDoc.new("{{hoge}}").to_html)
     assert_equal(%Q|<p>a<span class="plugin">{{hoge}}</span>b</p>\n|, HikiDoc.new("a{{hoge}}b").to_html)
