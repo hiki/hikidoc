@@ -50,7 +50,7 @@ class HikiDoc
 
   def initialize(output, options = {})
     @output = output
-    @options = options
+    @options = {:allow_bracket_inline_image => true}.merge(options)
     @header_re = nil
     @level = options[:level] || 1
     @plugin_syntax = options[:plugin_syntax] || method(:valid_plugin_syntax?)
@@ -386,10 +386,24 @@ class HikiDoc
     if m = /\A(?>[^|\\]+|\\.)*\|/.match(link)
       title = m[0].chop
       uri = m.post_match
-      @output.hyperlink(fix_uri(uri), compile_modifier(title))
+      fixed_uri = fix_uri(uri)
+      if can_image_link?(uri)
+        @output.image_hyperlink(fixed_uri, title)
+      else
+        @output.hyperlink(fixed_uri, compile_modifier(title))
+      end
     else
-      @output.hyperlink(fix_uri(link), @output.text(link))
+      fixed_link = fix_uri(link)
+      if can_image_link?(link)
+        @output.image_hyperlink(fixed_link)
+      else
+        @output.hyperlink(fixed_link, @output.text(link))
+      end
     end
+  end
+
+  def can_image_link?(uri)
+    image?(uri) and @options[:allow_bracket_inline_image]
   end
 
   def compile_uri_autolink(uri)
@@ -614,8 +628,9 @@ class HikiDoc
       %Q(<a href="#{escape_html_param(uri)}">#{title}</a>)
     end
 
-    def image_hyperlink(uri)
-      alt = escape_html(File.basename(uri))
+    def image_hyperlink(uri, alt=nil)
+      alt ||= uri.split(/\//).last
+      alt = escape_html(alt)
       %Q(<img src="#{escape_html_param(uri)}" alt="#{alt}"#{@suffix})
     end
 

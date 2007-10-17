@@ -160,10 +160,6 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "[[Hiki|http:/hikiwiki.html]]")
     assert_convert(%Q|<p><a href="hikiwiki.html">Hiki</a></p>\n|,
                    "[[Hiki|http:hikiwiki.html]]")
-    assert_convert(%Q|<p><a href="http://hikiwiki.org/img.png">img</a></p>\n|,
-                   "[[img|http://hikiwiki.org/img.png]]")
-    assert_convert(%Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|,
-                   "[[http://hikiwiki.org/img.png]]")
     assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|,
                    "http://hikiwiki.org/img.png")
     assert_convert(%Q|<p><img src="/img.png" alt="img.png" /></p>\n|,
@@ -178,6 +174,20 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "[[%22]]")
     assert_convert(%Q|<p><a href="&amp;">&amp;</a></p>\n|,
                    "[[&]]")
+  end
+
+  def test_image_link
+    assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|,
+                   "[[http://hikiwiki.org/img.png]]")
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|,
+                   "[[http://hikiwiki.org/img.png]]",
+                   :allow_bracket_inline_image => false)
+
+    assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img" /></p>\n|,
+                   "[[img|http://hikiwiki.org/img.png]]")
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/img.png">img</a></p>\n|,
+                   "[[img|http://hikiwiki.org/img.png]]",
+                   :allow_bracket_inline_image => false)
   end
 
   def test_definition
