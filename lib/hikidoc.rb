@@ -379,13 +379,24 @@ class HikiDoc
   URI_RE = /(?:https?|ftp|file|mailto):[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
   WIKI_NAME_RE = /\b(?:[A-Z]+[a-z\d]+){2,}\b/
 
+  def inline_syntax_re
+    if @options[:use_wiki_name]
+      / (#{BRACKET_LINK_RE})
+      | (#{URI_RE})
+      | (#{MODIFIER_RE})
+      | (#{WIKI_NAME_RE})
+      /xo
+    else
+      / (#{BRACKET_LINK_RE})
+      | (#{URI_RE})
+      | (#{MODIFIER_RE})
+      /xo
+    end
+  end
+
   def compile_inline(str, buf = nil)
     buf ||= @output.container
-    re = / (#{BRACKET_LINK_RE})
-         | (#{URI_RE})
-         | (#{MODIFIER_RE})
-         | (#{WIKI_NAME_RE})
-         /xo
+    re = inline_syntax_re
     while m = re.match(str)
       evaluate_plugin_block(m.pre_match, buf)
       case
@@ -396,11 +407,7 @@ class HikiDoc
       when mod = m[3]
         buf << compile_modifier(mod)
       when wiki_name = m[4]
-        if @options[:use_wiki_name]
-          buf << @output.wiki_name(wiki_name)
-        else
-          buf << @output.text(wiki_name)
-        end
+        buf << @output.wiki_name(wiki_name)
       else
         raise "must not happen"
       end
