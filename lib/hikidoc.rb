@@ -60,7 +60,7 @@ class HikiDoc
     @output.reset
     escape_plugin_blocks(src) {|escaped|
       compile_blocks escaped
-      @output.string
+      @output.finish
     }
   end
 
@@ -104,16 +104,25 @@ class HikiDoc
       end
     end
     buf << s.rest
-    buf = yield(buf)
-    buf.gsub(/\0(\d+)\0/) {
-      @output.inline_plugin(plugin_block($1.to_i))
-    }
+    yield(buf)
   end
 
   def restore_plugin_block(str)
     str.gsub(/\0(\d+)\0/) {
       "{{" + plugin_block($1.to_i) + "}}"
     }
+  end
+
+  def evaluate_plugin_block(str, buf = nil)
+    buf ||= @output.container
+    str.split(/(\0\d+\0)/).each do |s|
+      if s[0, 1] == "\0" and s[-1, 1] == "\0"
+        buf << @output.inline_plugin(plugin_block(s[1..-2].to_i))
+      else
+        buf << @output.text(s)
+      end
+    end
+    buf
   end
 
   def plugin_block(id)
@@ -347,14 +356,18 @@ class HikiDoc
                                   INDENTED_PRE_RE, BLOCK_PRE_OPEN_RE)
 
   def compile_paragraph(f)
-    str = f.break(PARAGRAPH_END_RE)\
-        .reject {|line| COMMENT_RE =~ line }\
-        .map {|line| compile_inline(strip(line)) }\
-        .join("\n")
-    if /\A\0(\d+)\0\z/ =~ str
+    lines = f.break(PARAGRAPH_END_RE)\
+        .reject {|line| COMMENT_RE =~ line }
+    if lines.size == 1 and /\A\0(\d+)\0\z/ =~ strip(lines[0])
       @output.block_plugin plugin_block($1.to_i)
     else
-      @output.paragraph str
+      buf = @output.container
+      lines.each_with_index do |line, i|
+        line = strip(line)
+        line << "\n" if i < lines.size - 1
+        compile_inline(line, buf)
+      end
+      @output.paragraph(buf)
     end
   end
 
@@ -366,15 +379,15 @@ class HikiDoc
   URI_RE = /(?:https?|ftp|file|mailto):[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
   WIKI_NAME_RE = /\b(?:[A-Z]+[a-z\d]+){2,}\b/
 
-  def compile_inline(str)
+  def compile_inline(str, buf = nil)
+    buf ||= @output.container
     re = / (#{BRACKET_LINK_RE})
          | (#{URI_RE})
          | (#{MODIFIER_RE})
          | (#{WIKI_NAME_RE})
          /xo
-    buf = ""
     while m = re.match(str)
-      buf << @output.text(m.pre_match)
+      evaluate_plugin_block(m.pre_match, buf)
       case
       when link = m[1]
         buf << compile_bracket_link(link[2...-2])
@@ -393,7 +406,7 @@ class HikiDoc
       end
       str = m.post_match
     end
-    buf << @output.text(str)
+    evaluate_plugin_block(str, buf)
     buf
   end
 
@@ -460,10 +473,10 @@ class HikiDoc
   }
 
   def compile_modifier(str)
-    buf = ""
+    buf = @output.container
     while m = / (#{MODIFIER_RE})
               /xo.match(str)
-      buf << @output.text(m.pre_match)
+      evaluate_plugin_block(m.pre_match, buf)
       case
       when chunk = m[1]
         mod, s = split_mod(chunk)
@@ -474,7 +487,7 @@ class HikiDoc
       end
       str = m.post_match
     end
-    buf << @output.text(str)
+    evaluate_plugin_block(str, buf)
     buf
   end
 
@@ -514,8 +527,12 @@ class HikiDoc
       @f = StringIO.new
     end
 
-    def string
+    def finish
       @f.string
+    end
+
+    def container
+      ""
     end
 
     #
@@ -647,7 +664,7 @@ class HikiDoc
       hyperlink(name, text(name))
     end
 
-    def image_hyperlink(uri, alt=nil)
+    def image_hyperlink(uri, alt = nil)
       alt ||= uri.split(/\//).last
       alt = escape_html(alt)
       %Q(<img src="#{escape_html_param(uri)}" alt="#{alt}"#{@suffix})
