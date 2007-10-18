@@ -40,6 +40,12 @@ class HikiDoc
   VERSION = "0.0.1" # FIXME
   Revision = %q$Rev$ # Is it needed?
 
+  class Error < StandardError
+  end
+
+  class UnexpectedError < Error
+  end
+
   def HikiDoc.to_html(src, options = {})
     new(HTMLOutput.new(">"), options).compile(src)
   end
@@ -126,7 +132,7 @@ class HikiDoc
   end
 
   def plugin_block(id)
-    @plugin_blocks[id] or raise "must not happen: #{id.inspect}"
+    @plugin_blocks[id] or raise UnexpectedError, "must not happen: #{id.inspect}"
   end
 
   def extract_plugin_block(s)
@@ -333,7 +339,7 @@ class HikiDoc
   BLOCK_PRE_CLOSE_RE = /\A>>>/
 
   def compile_block_pre(f)
-    m = BLOCK_PRE_OPEN_RE.match(f.gets) or raise "must not happen"
+    m = BLOCK_PRE_OPEN_RE.match(f.gets) or raise UnexpectedError, "must not happen"
     syntax = m[1] ? m[1].downcase : nil
     str = restore_plugin_block(f.break(BLOCK_PRE_CLOSE_RE).join.chomp)
     f.gets
@@ -409,7 +415,7 @@ class HikiDoc
       when wiki_name = m[4]
         buf << @output.wiki_name(wiki_name)
       else
-        raise "must not happen"
+        raise UnexpectedError, "must not happen"
       end
       str = m.post_match
     end
@@ -490,7 +496,7 @@ class HikiDoc
         mid = MODTAG[mod]
         buf << @output.__send__(mid, compile_modifier(s))
       else
-        raise "must not happen"
+        raise UnexpectedError, "must not happen"
       end
       str = m.post_match
     end
@@ -507,7 +513,7 @@ class HikiDoc
     when /\A==/
       return str[0, 2], str[2...-2]
     else
-      raise "must not happen: #{str.inspect}"
+      raise UnexpectedError, "must not happen: #{str.inspect}"
     end
   end
 
