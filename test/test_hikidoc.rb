@@ -120,13 +120,13 @@ class HikiDocTestCase < Test::Unit::TestCase
   end
 
   def test_multi_pre
-    assert_convert("<pre>foo\n</pre>\n",
+    assert_convert("<pre>foo</pre>\n",
                    "<<<\nfoo\n>>>")
-    assert_convert("<pre>foo\n bar\n</pre>\n",
+    assert_convert("<pre>foo\n bar</pre>\n",
                    "<<<\nfoo\n bar\n>>>")
-    assert_convert("<pre>foo\n</pre>\n<pre>bar\n</pre>\n",
+    assert_convert("<pre>foo</pre>\n<pre>bar</pre>\n",
                    "<<<\nfoo\n>>>\n<<<\nbar\n>>>")
-    assert_convert("<pre>&lt;foo&gt;\n</pre>\n",
+    assert_convert("<pre>&lt;foo&gt;</pre>\n",
                    "<<<\n<foo>\n>>>")
   end
 
@@ -312,7 +312,7 @@ class HikiDocTestCase < Test::Unit::TestCase
   def test_pre_and_plugin
     assert_convert(%Q|<pre>{{hoge}}</pre>\n|,
                    " {{hoge}}")
-    assert_convert(%Q|<pre>{{hoge}}\n</pre>\n|,
+    assert_convert(%Q|<pre>{{hoge}}</pre>\n|,
                    "<<<\n{{hoge}}\n>>>")
     assert_convert("<div class=\"plugin\">{{foo\n 1}}</div>\n",
                    "{{foo\n 1}}")

@@ -326,7 +326,7 @@ class HikiDoc
   def compile_block_pre(f)
     m = BLOCK_PRE_OPEN_RE.match(f.gets) or raise "must not happen"
     syntax = m[1] ? m[1].downcase : nil
-    str = restore_plugin_block(f.break(BLOCK_PRE_CLOSE_RE).join)
+    str = restore_plugin_block(f.break(BLOCK_PRE_CLOSE_RE).join.chomp)
     f.gets
     if syntax
       begin
