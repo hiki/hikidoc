@@ -664,10 +664,6 @@ class HikiDoc
       @f.puts %Q(<div class="plugin">{{#{escape_html(str)}}}</div>)
     end
 
-    def puts_html(str)
-      @f.puts str
-    end
-
     #
     # Functions
     #
