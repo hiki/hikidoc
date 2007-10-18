@@ -340,19 +340,9 @@ class HikiDoc
 
   def compile_block_pre(f)
     m = BLOCK_PRE_OPEN_RE.match(f.gets) or raise UnexpectedError, "must not happen"
-    syntax = m[1] ? m[1].downcase : nil
     str = restore_plugin_block(f.break(BLOCK_PRE_CLOSE_RE).join.chomp)
     f.gets
-    if syntax
-      begin
-        convertor = Syntax::Convertors::HTML.for_syntax(syntax)
-        @output.puts_html convertor.convert(str)
-      rescue NameError, RuntimeError
-        @output.preformatted @output.text(str)
-      end
-    else
-      @output.preformatted @output.text(str)
-    end
+    @output.block_preformatted(str, m[1])
   end
 
   BLANK = /\A$/
@@ -645,6 +635,19 @@ class HikiDoc
 
     def blockquote_close
       @f.puts "</blockquote>"
+    end
+
+    def block_preformatted(str, info)
+      syntax = info ? info.downcase : nil
+      if syntax
+        begin
+          convertor = Syntax::Convertors::HTML.for_syntax(syntax)
+          @f.puts convertor.convert(str)
+          return
+        rescue NameError, RuntimeError
+        end
+      end
+      preformatted(text(str))
     end
 
     def preformatted(str)

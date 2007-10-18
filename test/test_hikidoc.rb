@@ -326,11 +326,11 @@ class HikiDocTestCase < Test::Unit::TestCase
   if Object.const_defined?(:Syntax)
 
     def test_syntax_ruby
-      assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n",
+      assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre>\n",
                      "<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
-      assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span>\n</pre>\n",
+      assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre>\n",
                      "<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
-      assert_convert("<pre><span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span>\n</pre>\n",
+      assert_convert("<pre><span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span></pre>\n",
                      "<<< ruby\n'a<\">b'\n>>>")
     end
   end
