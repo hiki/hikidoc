@@ -82,6 +82,7 @@ class HikiDoc
     {
       :allow_bracket_inline_image => true,
       :use_wiki_name => true,
+      :use_not_wiki_name => true,
     }
   end
 
@@ -377,11 +378,19 @@ class HikiDoc
 
   def inline_syntax_re
     if @options[:use_wiki_name]
-      / (#{BRACKET_LINK_RE})
-      | (#{URI_RE})
-      | (#{MODIFIER_RE})
-      | (#{WIKI_NAME_RE})
-      /xo
+      if @options[:use_not_wiki_name]
+        / (#{BRACKET_LINK_RE})
+        | (#{URI_RE})
+        | (#{MODIFIER_RE})
+        | (\^?#{WIKI_NAME_RE})
+        /xo
+      else
+        / (#{BRACKET_LINK_RE})
+        | (#{URI_RE})
+        | (#{MODIFIER_RE})
+        | (#{WIKI_NAME_RE})
+        /xo
+      end
     else
       / (#{BRACKET_LINK_RE})
       | (#{URI_RE})
@@ -393,24 +402,38 @@ class HikiDoc
   def compile_inline(str, buf = nil)
     buf ||= @output.container
     re = inline_syntax_re
+    pending_str = nil
     while m = re.match(str)
-      evaluate_plugin_block(m.pre_match, buf)
-      case
-      when link = m[1]
-        buf << compile_bracket_link(link[2...-2])
-      when uri = m[2]
-        buf << compile_uri_autolink(uri)
-      when mod = m[3]
-        buf << compile_modifier(mod)
-      when wiki_name = m[4]
-        buf << @output.wiki_name(wiki_name)
-      else
-        raise UnexpectedError, "must not happen"
-      end
       str = m.post_match
+
+      link, uri, mod, wiki_name = m[1, 4]
+      if wiki_name and wiki_name[0, 1] == "^"
+        pending_str = m.pre_match + wiki_name[1..-1]
+        next
+      end
+
+      pre_str = "#{pending_str}#{m.pre_match}"
+      pending_str = nil
+      evaluate_plugin_block(pre_str, buf)
+      compile_inline_markup(buf, link, uri, mod, wiki_name)
     end
-    evaluate_plugin_block(str, buf)
+    evaluate_plugin_block(pending_str || str, buf)
     buf
+  end
+
+  def compile_inline_markup(buf, link, uri, mod, wiki_name)
+    case
+    when link
+      buf << compile_bracket_link(link[2...-2])
+    when uri
+      buf << compile_uri_autolink(uri)
+    when mod
+      buf << compile_modifier(mod)
+    when wiki_name
+      buf << @output.wiki_name(wiki_name)
+    else
+      raise UnexpectedError, "must not happen"
+    end
   end
 
   def compile_bracket_link(link)

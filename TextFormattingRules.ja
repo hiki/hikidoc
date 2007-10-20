@@ -40,6 +40,18 @@
 **WikiNAME     - NAMEが全て大文字なのでWikiNameではない
 **fooWikiName  - 先頭に全て小文字の英字fooがあるためWikiNameではない
 
+WikiNameの前に''^''をつけるとWikiNameへのリンクを抑制することができます。
+
+*記述例
+
+ WikiName     - WikiName
+ ^WikiName    - WikiNameへのリンクを抑制
+
+*出力例
+
+**WikiName     - WikiName
+**^WikiName    - WikiNameへのリンクを抑制
+
 !!ページへのリンク
 
 ページ名を二つのカギカッコで囲むと、そのページへのリンクになります。

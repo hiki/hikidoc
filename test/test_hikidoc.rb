@@ -208,6 +208,21 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "RSSPageName")
   end
 
+  def test_not_wiki_name
+    assert_convert("<p>WikiName</p>\n",
+                   "^WikiName")
+    assert_convert("<p>^<a href=\"WikiName\">WikiName</a></p>\n",
+                   "^WikiName",
+                   :use_not_wiki_name => false)
+    assert_convert("<p>^WikiName</p>\n",
+                   "^WikiName",
+                   :use_wiki_name => false)
+    assert_convert("<p>^WikiName</p>\n",
+                   "^WikiName",
+                   :use_wiki_name => false,
+                   :use_not_wiki_name => false)
+  end
+
   def test_use_wiki_name_option
     assert_convert("<p><a href=\"WikiName\">WikiName</a></p>\n",
                    "WikiName")

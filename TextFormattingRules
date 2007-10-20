@@ -40,6 +40,18 @@ Words in which this condition is met become a WikiName, and a link is automatica
 **WikiNAME     - All of the letters in NAME are uppercase, so this is not a WikiName
 **fooWikiName  - This begins with "foo", which is in all lowercase, so this is not a WikiName
 
+You can disable an auto WikiName link by prepending ''^'' to the WikiName.
+
+*Example statement
+
+ WikiName     - WikiName
+ ^WikiName    - Disable WikiName link
+
+*Example output
+
+**WikiName     - WikiName
+**^WikiName    - Disable WikiName link
+
 !!Linking to other Wiki pages
 
 If a page name is surrounded with two pairs of brackets, it becomes a link to that page.
