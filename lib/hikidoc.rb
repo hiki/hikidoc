@@ -357,13 +357,13 @@ class HikiDoc
     if lines.size == 1 and /\A\0(\d+)\0\z/ =~ strip(lines[0])
       @output.block_plugin plugin_block($1.to_i)
     else
-      buf = @output.container
+      line_buffer = @output.container(:paragraph)
       lines.each_with_index do |line, i|
-        line = strip(line)
-        line << "\n" if i < lines.size - 1
-        compile_inline(line, buf)
+        buffer = @output.container
+        line_buffer << buffer
+        compile_inline(lstrip(line).chomp, buffer)
       end
-      @output.paragraph(buf)
+      @output.paragraph(line_buffer)
     end
   end
 
@@ -534,8 +534,13 @@ class HikiDoc
       @f.string
     end
 
-    def container
-      ""
+    def container(_for=nil)
+      case _for
+      when :paragraph
+        []
+      else
+        ""
+      end
     end
 
     #
@@ -656,8 +661,8 @@ class HikiDoc
       @f.puts "</pre>"
     end
 
-    def paragraph(str)
-      @f.puts "<p>#{str}</p>"
+    def paragraph(lines)
+      @f.puts "<p>#{lines.join("\n")}</p>"
     end
 
     def block_plugin(str)

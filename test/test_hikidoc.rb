@@ -144,6 +144,9 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "foo\n\nbar")
     assert_convert("<p>foo</p>\n<p>bar</p>\n",
                    "foo\r\n\r\nbar")
+
+    assert_convert("<p>foo </p>\n<p>b a r </p>\n",
+                   "foo \n\nb a r ")
   end
 
   def test_escape
