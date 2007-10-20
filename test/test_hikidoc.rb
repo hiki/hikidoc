@@ -115,6 +115,8 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "\tfoo")
     assert_convert("<pre>foo\nbar</pre>\n",
                    " foo\n bar")
+    assert_convert("<pre>foo\nbar</pre>\n",
+                   " foo\n bar\n")
     assert_convert("<pre>&lt;foo&gt;</pre>\n",
                    " <foo>")
   end
