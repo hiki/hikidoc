@@ -38,7 +38,6 @@ end
 
 class HikiDoc
   VERSION = "0.0.1" # FIXME
-  Revision = %q$Rev$ # Is it needed?
 
   class Error < StandardError
   end
