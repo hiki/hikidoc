@@ -179,6 +179,8 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "[[%22]]")
     assert_convert(%Q|<p><a href="&amp;">&amp;</a></p>\n|,
                    "[[&]]")
+    assert_convert(%Q|<p><a href="aa">aa</a>bb<a href="cc">cc</a></p>\n|,
+                   "[[aa]]bb[[cc]]")
   end
 
   def test_wiki_name

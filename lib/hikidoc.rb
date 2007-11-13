@@ -371,7 +371,7 @@ class HikiDoc
   # Inline Level
   #
 
-  BRACKET_LINK_RE = /\[\[.+\]\]/
+  BRACKET_LINK_RE = /\[\[.+?\]\]/
   URI_RE = /(?:https?|ftp|file|mailto):[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
   WIKI_NAME_RE = /\b(?:[A-Z]+[a-z\d]+){2,}\b/
 
