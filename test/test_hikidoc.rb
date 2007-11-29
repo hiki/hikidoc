@@ -167,6 +167,12 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "[[Hiki|http:hikiwiki.html]]")
     assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|,
                    "http://hikiwiki.org/img.png")
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/ja/?c=edit;p=Test">| +
+                   %Q|http://hikiwiki.org/ja/?c=edit;p=Test</a></p>\n|,
+                   "http://hikiwiki.org/ja/?c=edit;p=Test")
+    assert_convert(%Q|<p><a href="http://hikiwiki.org/ja/?c=edit&amp;p=Test">| +
+                   %Q|http://hikiwiki.org/ja/?c=edit&amp;p=Test</a></p>\n|,
+                   "http://hikiwiki.org/ja/?c=edit&p=Test")
     assert_convert(%Q|<p><img src="/img.png" alt="img.png" /></p>\n|,
                    "http:/img.png")
     assert_convert(%Q|<p><img src="img.png" alt="img.png" /></p>\n|,

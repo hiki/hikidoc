@@ -463,7 +463,7 @@ class HikiDoc
     if image?(uri)
       @output.image_hyperlink(fix_uri(uri))
     else
-      @output.hyperlink(fix_uri(uri), uri)
+      @output.hyperlink(fix_uri(uri), @output.text(uri))
     end
   end
 
