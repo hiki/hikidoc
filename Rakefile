@@ -46,3 +46,11 @@ project = Hoe.new('hikidoc', HikiDoc::VERSION) do |project|
   project.test_globs = ['test/test_*.rb']
   project.rdoc_pattern = /(?:^(?:lib|bin)|\AREADME\z)/
 end
+
+desc 'Tag the repository for release.'
+task :tag do
+  version = HikiDoc::VERSION
+  message = "Released HikiDoc #{version}!"
+  base = "svn+ssh://rubyforge.org/var/svn/hikidoc/"
+  sh 'svn', 'copy', '-m', message, "#{base}trunk", "#{base}tags/#{version}"
+end
