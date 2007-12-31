@@ -36,6 +36,7 @@ at_exit do
   FileUtils.rm_f(manifest)
 end
 
+ENV["VERSION"] ||= HikiDoc::VERSION
 project = Hoe.new('hikidoc', HikiDoc::VERSION) do |project|
   project.author = ['Kazuhiko']
   project.email = ['kazuhiko@fdiary.net']
