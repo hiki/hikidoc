@@ -47,6 +47,13 @@ class HikiDocTestCase < Test::Unit::TestCase
                    options)
   end
 
+  def test_multi_line_plugin
+    assert_convert("<div class=\"plugin\">" +
+                   "{{&lt;&lt;TEST2\n test2\nTEST2}}" +
+                   "</div>\n",
+                   "{{<<TEST2\n test2\nTEST2}}")
+  end
+
   def test_blockquote
     assert_convert("<blockquote><p>hoge</p>\n</blockquote>\n",
                    %Q|""hoge\n|)
@@ -130,6 +137,12 @@ class HikiDocTestCase < Test::Unit::TestCase
                    "<<<\nfoo\n>>>\n<<<\nbar\n>>>")
     assert_convert("<pre>&lt;foo&gt;</pre>\n",
                    "<<<\n<foo>\n>>>")
+  end
+
+  def test_multi_pre_with_plugin
+    assert_convert("<pre>{{{}}}</pre>\n" +
+                   "<div class=\"plugin\">{{'test'}}</div>\n",
+                   "<<<\n{{{}}}\n>>>\n{{'test'}}")
   end
 
   def test_comment
