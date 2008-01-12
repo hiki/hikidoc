@@ -48,10 +48,29 @@ class HikiDocTestCase < Test::Unit::TestCase
   end
 
   def test_multi_line_plugin
-    assert_convert("<div class=\"plugin\">" +
-                   "{{&lt;&lt;TEST2\n test2\nTEST2}}" +
-                   "</div>\n",
-                   "{{<<TEST2\n test2\nTEST2}}")
+    assert_convert(<<-END_OF_EXPECTED, <<-END_OF_INPUT)
+<div class="plugin">{{&lt;&lt;TEST2
+ test2
+TEST2}}</div>
+                   END_OF_EXPECTED
+{{<<TEST2
+ test2
+TEST2}}
+                   END_OF_INPUT
+
+    assert_convert(<<-END_OF_EXPECTED, <<-END_OF_INPUT)
+<div class="plugin">{{&lt;&lt;TEST
+&lt;&lt;&lt;
+here is not pre but plugin.
+&gt;&gt;&gt;
+TEST}}</div>
+                   END_OF_EXPECTED
+{{<<TEST
+<<<
+here is not pre but plugin.
+>>>
+TEST}}
+                   END_OF_INPUT
   end
 
   def test_blockquote
