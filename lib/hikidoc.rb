@@ -506,7 +506,7 @@ class HikiDoc
       when chunk = m[1]
         mod, s = split_mod(chunk)
         mid = MODTAG[mod]
-        buf << @output.__send__(mid, compile_modifier(s))
+        buf << @output.__send__(mid, compile_inline(s))
       else
         raise UnexpectedError, "must not happen"
       end

@@ -309,13 +309,33 @@ TEST}}
   end
 
   def test_definition_with_link
-    assert_convert(%Q|<dl>\n<dt><a href="http://hikiwiki.org/">Hiki</a></dt>\n<dd>Website</dd>\n</dl>\n|,
+    assert_convert("<dl>\n<dt><a href=\"http://hikiwiki.org/\">Hiki</a></dt>\n" +
+                   "<dd>Website</dd>\n</dl>\n",
                    ":[[Hiki|http://hikiwiki.org/]]:Website")
+    assert_convert("<dl>\n<dt>a</dt>\n" +
+                   "<dd><a href=\"http://hikiwiki.org/\">Hiki</a></dd>\n" +
+                   "</dl>\n",
+                   ":a:[[Hiki|http://hikiwiki.org/]]")
   end
 
   def test_definition_with_modifier
-    assert_convert(%Q|<dl>\n<dt><strong>foo</strong></dt>\n<dd>bar</dd>\n</dl>\n|,
+    assert_convert("<dl>\n<dt><strong>foo</strong></dt>\n" +
+                   "<dd>bar</dd>\n</dl>\n",
                    ":'''foo''':bar")
+    assert_convert("<dl>\n<dt>foo</dt>\n" +
+                   "<dd><strong>bar</strong></dd>\n</dl>\n",
+                   ":foo:'''bar'''")
+  end
+
+  def test_definition_with_modifier_link
+    assert_convert("<dl>\n<dt>" +
+                   "<strong><a href=\"http://hikiwiki.org/\">Hiki</a></strong>" +
+                   "</dt>\n<dd>Website</dd>\n</dl>\n",
+                   ":'''[[Hiki|http://hikiwiki.org/]]''':Website")
+    assert_convert("<dl>\n<dt>Website</dt>\n<dd>" +
+                   "<strong><a href=\"http://hikiwiki.org/\">Hiki</a></strong>" +
+                   "</dd>\n</dl>\n",
+                   ":Website:'''[[Hiki|http://hikiwiki.org/]]'''")
   end
 
   def test_table
@@ -367,6 +387,8 @@ TEST}}
   def test_modifier_and_link
     assert_convert("<p><a href=\"http://hikiwiki.org/\"><strong>Hiki</strong></a></p>\n",
                    "[['''Hiki'''|http://hikiwiki.org/]]")
+    assert_convert("<p><strong><a href=\"http://hikiwiki.org/\">Hiki</a></strong></p>\n",
+                   "'''[[Hiki|http://hikiwiki.org/]]'''")
   end
 
   def test_pre_and_plugin
