@@ -17,6 +17,7 @@ HTML_TEMPLATE = <<EOS
 EOS
 
 options = {}
+format_options = {}
 ARGV.options do |opts|
   opts.banner = "Usage: #$0 [OPTIONS] FILE"
 
@@ -27,6 +28,9 @@ ARGV.options do |opts|
   opts.on('-t', '--template=TEMPLATE',
          'Specify a HTML template file') do |template|
     options[:template] = template
+  end
+  opts.on('--no-wikiname', 'Disable WikiName link') do
+    format_options[:use_wiki_name] = false
   end
 
   opts.parse!
@@ -41,7 +45,7 @@ else
   usage
 end
 
-body = HikiDoc.to_html(text)
+body = HikiDoc.to_html(text, format_options)
 
 def result(erb, title, body, text)
   erb.result(binding)
