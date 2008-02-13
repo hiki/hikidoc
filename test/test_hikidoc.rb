@@ -417,6 +417,13 @@ TEST}}
     end
   end
 
+  def test_plugin_in_pre_with_header
+    assert_convert("<h1>Title</h1>\n<pre>{{_/a:a}}</pre>\n",
+                   "! Title\n {{_/a:a}}")
+    assert_convert("<h1>Title</h1>\n<pre>{{_/a:a}}\n{{_/a:a}}</pre>\n",
+                   "! Title\n {{_/a:a}}\n {{_/a:a}}")
+  end
+
   private
   def assert_convert(expected, markup, options={}, message=nil)
     assert_equal(expected, HikiDoc.to_xhtml(markup, options), message)
