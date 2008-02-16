@@ -225,6 +225,13 @@ TEST}}
                    "[[aa]]bb[[cc]]")
   end
 
+  def test_inter_wiki_name
+    assert_convert("<p><a href=\"scheme:keyword\">scheme:keyword</a></p>\n",
+                   "[[scheme:keyword]]")
+    assert_convert("<p><a href=\"scheme:keyword\">label</a></p>\n",
+                   "[[label|scheme:keyword]]")
+  end
+
   def test_wiki_name
     assert_convert("<p><a href=\"WikiName\">WikiName</a></p>\n",
                    "WikiName")

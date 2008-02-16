@@ -468,7 +468,7 @@ class HikiDoc
   end
 
   def fix_uri(uri)
-    if %r|://| !~ uri and /\Amailto:/ !~ uri
+    if /\A(?:https?|ftp|file):(?!\/\/)/ =~ uri
       uri.sub(/\A\w+:/, "")
     else
       uri
