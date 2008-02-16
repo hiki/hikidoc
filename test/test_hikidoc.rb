@@ -145,6 +145,10 @@ TEST}}
                    " foo\n bar\n")
     assert_convert("<pre>&lt;foo&gt;</pre>\n",
                    " <foo>")
+    assert_convert("<pre>{{_:a/a}}</pre>\n",
+                   " {{_:a/a}}")
+    assert_convert("<pre>[[_:a/a]]</pre>\n",
+                   " [[_:a/a]]")
   end
 
   def test_multi_pre
