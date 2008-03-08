@@ -56,14 +56,14 @@ task :tag do
 end
 
 begin
-require 'rcov/rcovtask'
+  require 'rcov/rcovtask'
 
-desc "Analyze code coverage of the unit tests."
-Rcov::RcovTask.new(:coverage) do |t|
-  t.test_files = FileList[project.test_globs]
-  t.verbose = true
-  t.rcov_opts << "--text-report"
-end 
+  desc "Analyze code coverage of the unit tests."
+  Rcov::RcovTask.new(:coverage) do |t|
+    t.test_files = FileList[project.test_globs]
+    t.verbose = true
+    t.rcov_opts << "--text-report"
+  end
 rescue LoadError
 end
 
