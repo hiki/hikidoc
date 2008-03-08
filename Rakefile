@@ -63,7 +63,11 @@ begin
     t.test_files = FileList[project.test_globs]
     t.verbose = true
     t.rcov_opts << "--text-report"
+    begin
+      require "rubygems"
+      t.rcov_opts << "--exclude=^#{Regexp.escape(Gem.dir)}"
+    rescue LoadError
+    end
   end
 rescue LoadError
 end
-
