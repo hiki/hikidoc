@@ -1,0 +1,10 @@
+! NEWS.ja
+
+!! 0.0.1から0.0.2の変更点: 2008-08-11
+
+* 修飾系インライン中のインライン記法が展開されないバグを修正
+* hikidocコマンドに--no-wikinameオプションを追加
+* InterWikiNameでURI schemeとして扱うものをhttp(s),file,ftpに限定するよう修正
+* テストを強化
+* Rakeタスクcoverageを追加（要rcov）
+

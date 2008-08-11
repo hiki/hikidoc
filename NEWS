@@ -1,0 +1,10 @@
+! NEWS
+
+!! Changes 0.0.2 from 0.0.1: 2008-08-11
+
+* fix a bug: an inline that is inside of a modifier inline do not works
+* add a option "--no-wikiname" to `hikidoc' command
+* correct URI scheme behavior of InterWikiName
+* add some tests
+* add a Rake task "coverage" (requires rcov)
+
