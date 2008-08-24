@@ -45,6 +45,7 @@ project = Hoe.new('hikidoc', HikiDoc::VERSION) do |project|
   project.url = 'http://rubyforge.org/projects/hikidoc/'
   project.test_globs = ['test/test_*.rb']
   project.rdoc_pattern = /(?:^(?:lib|bin)|\AREADME\z)/
+  project.changes = File.read("NEWS").split(/^!! .*$/)[1].strip
 end
 
 desc 'Tag the repository for release.'
