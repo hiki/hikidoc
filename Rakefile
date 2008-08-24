@@ -72,3 +72,13 @@ begin
   end
 rescue LoadError
 end
+
+
+# Fix Hoe's uncustomizable options
+rdoc_main = "lib/hikidoc.rb"
+project.spec.rdoc_options.each do |option|
+  option.replace(rdoc_main) if option == "README.txt"
+end
+ObjectSpace.each_object(Rake::RDocTask) do |task|
+  task.main = rdoc_main if task.main == "README.txt"
+end
