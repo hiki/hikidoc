@@ -2,7 +2,7 @@
 
 !! 0.0.2から0.0.3の変更点: 2008-08-25
 
-* gemからのインストール時に"Could not find main page README.txt"という警告メッセージが出力されるのを修正
+* gemからのインストール時に"Could not find main page README.txt"という警告メッセージが出力され問題を修正
 
 !! 0.0.1から0.0.2の変更点: 2008-08-11
 
