@@ -1,5 +1,9 @@
 ! NEWS
 
+!! Changes 0.0.3 from 0.0.2: 2008-08-25
+
+* fix warning message "Could not find main page README.txt" at installation via gem
+
 !! Changes 0.0.2 from 0.0.1: 2008-08-11
 
 * fix a bug: an inline that is inside of a modifier inline do not works
