@@ -1,5 +1,9 @@
 ! NEWS
 
+!! Changes 0.0.4 from 0.0.3: XXXX-XX-XX
+
+* escape collectly in inline_plugin same as block_plugin does.
+
 !! Changes 0.0.3 from 0.0.2: 2008-08-25
 
 * fix warning message "Could not find main page README.txt" at installation via gem

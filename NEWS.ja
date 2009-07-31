@@ -1,5 +1,9 @@
 ! NEWS.ja
 
+!! 0.0.3から0.0.4の変更点: XXXX-XX-XX
+
+* inline_pluginでblock_plugin同様にエスケープするように修正
+
 !! 0.0.2から0.0.3の変更点: 2008-08-25
 
 * gemからのインストール時に"Could not find main page README.txt"という警告メッセージが出力され問題を修正
