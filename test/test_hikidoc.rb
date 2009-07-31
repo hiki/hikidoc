@@ -32,6 +32,10 @@ class HikiDocTestCase < Test::Unit::TestCase
   def test_plugin_with_meta_char
     assert_convert("<div class=\"plugin\">{{hoge(\"a\\\"b\")}}</div>\n",
                    '{{hoge("a\\"b")}}')
+    assert_convert("<div class=\"plugin\">{{hoge(\"&lt;a&gt;\")}}</div>\n",
+                   '{{hoge("<a>")}}')
+    assert_convert("<p>a<span class=\"plugin\">{{hoge(\"&lt;a&gt;\")}}</span></p>\n",
+                   'a{{hoge("<a>")}}')
   end
 
   def test_plugin_with_custom_syntax
