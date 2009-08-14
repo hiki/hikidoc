@@ -38,6 +38,23 @@ class HikiDocTestCase < Test::Unit::TestCase
                    'a{{hoge("<a>")}}')
   end
 
+  def test_plugin_with_default_syntax
+    assert_convert(%q!<p>{{'}}</p>! + "\n",
+		   %q!{{'}}!)
+    assert_convert(%q!<p>{{\"}}</p>! + "\n",
+		   %q!{{\"}}!)
+    assert_convert(%q!<div class="plugin">{{''}}</div>! + "\n",
+		   %q!{{''}}!)
+    assert_convert(%q!<p>{{'"}}</p>! + "\n",
+		   %q!{{'"}}!)
+    assert_convert(%q!<div class="plugin">{{'\''}}</div>! + "\n",
+		   %q!{{'\''}}!)
+    assert_convert(%q!<p>{{\"""}}</p>! + "\n",
+		   %q!{{\"""}}!)
+    assert_convert(%q!<div class="plugin">{{"ab\c"}}</div>! + "\n",
+		   %q!{{"ab\c"}}!)
+  end
+
   def test_plugin_with_custom_syntax
     assert_convert("<p>{{&lt;&lt;\"End\"\nfoo's bar\nEnd\n}}</p>\n",
                    "{{<<\"End\"\nfoo's bar\nEnd\n}}")
