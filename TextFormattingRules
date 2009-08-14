@@ -40,7 +40,7 @@ Words in which this condition is met become a WikiName, and a link is automatica
 **WikiNAME     - All of the letters in NAME are uppercase, so this is not a WikiName
 **fooWikiName  - This begins with "foo", which is in all lowercase, so this is not a WikiName
 
-You can disable an auto WikiName link by prepending ''^'' to the WikiName.
+You can disable an auto WikiName link by putting ''^'' to the WikiName.
 
 *Example statement
 
@@ -120,22 +120,22 @@ Lines beginning with spaces or tabs will be treated as preformatted text.
 
 !Text decoration
 
-Text surrounded by sets of two single quotes ('') is emphasized.
+Text surrounded by sets of two single quotes ('') is emphasised.
 
-Text surrounded by sets of three single quotes (''') is strongly emphasized.
+Text surrounded by sets of three single quotes (''') is strongly emphasised.
 
 Text surrounded by sets of double equal signs (===) is struck out.
 
 *Example statement
 
- If you write like this, it becomes ''emphasized''.
- And if you write like this, it becomes '''strongly emphasized'''.
+ If you write like this, it becomes ''emphasised''.
+ And if you write like this, it becomes '''strongly emphasised'''.
  ==This is dull, but== And struck-out text is supported, too!
 
 *Example output
 
-If you write like this, it becomes ''emphasized''.
-And if you write like this, it becomes '''strongly emphasized'''.
+If you write like this, it becomes ''emphasised''.
+And if you write like this, it becomes '''strongly emphasised'''.
 ==This is dull, but== And struck-out text is supported, too!
 
 !Headings
@@ -302,7 +302,7 @@ Comment lines is not outputted.
 
 One can use a plugin by surrounding text with two pairs of brackets.
 Multiple lines parameter is supported.
-When a line contains plugin only, it is becomes a block plugin,
+When a line contains plugin only, it becomes a block plugin,
 which is not surrounded by <p> ... </p>.
 
 *Example statement
