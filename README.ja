@@ -41,12 +41,13 @@ Subversion レポジトリ http://hikidoc.rubyforge.org/svn/ から取得して
 
 !! 関連するソフトウェア
 
-以下のソフトウェアで HikiDoc ライブラリが用いられています。
+以下のソフトウェアで HikiDoc ライブラリ、または HikiDoc フォーマットが用いられています。
 
 :[[tDiary|http://www.tdiary.org/]]:ウェブ日記ソフトウェア
 :[[Hiki|http://hikiwiki.org/]]:多機能かつ高速な Wiki クローン
 :[[lily|http://lily.sourceforge.jp/]]:シンプルな CMS (Web サイト構築システム)
 :[[Text::HikiDoc|http://search.cpan.org/perldoc?Text::HikiDoc]]:Perl による HikiDoc の実装
+:[[PikiDoc|http://github.com/moro/piki_doc/]]:HikiDocの「プラグイン」機能を追加できるライブラリです
 
 !! ライセンス
 

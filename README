@@ -44,12 +44,13 @@ HikiDoc ML's archive is available at http://www.fdiary.net/ml/hikidoc/ .
 
 !! Related softwares
 
-The following softwares use the HikiDoc library.
+The following softwares use the HikiDoc library or the HikiDoc format.
 
 :[[tDiary|http://www.tdiary.org/]]:a Weblog/Web-diary software
 :[[Hiki|http://hikiwiki.org/]]:a powerful and fast wiki clone
 :[[lily|http://lily.sourceforge.jp/]]:a simple CMS
 :[[Text::HikiDoc|http://search.cpan.org/perldoc?Text::HikiDoc]]:HikiDoc by Perl
+:[[PikiDoc|http://github.com/moro/piki_doc/]]:a library that you can add plugin functions on HikiDoc
 
 !! License
 
