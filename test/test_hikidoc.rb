@@ -39,17 +39,19 @@ class HikiDocTestCase < Test::Unit::TestCase
   end
 
   def test_plugin_with_default_syntax
+    # test HikiDoc#valid_plugin_syntax?
+    # default syntax checking pairs of quote like "..." or '...'
     assert_convert(%q!<p>{{'}}</p>! + "\n",
 		   %q!{{'}}!)
-    assert_convert(%q!<p>{{\"}}</p>! + "\n",
-		   %q!{{\"}}!)
     assert_convert(%q!<div class="plugin">{{''}}</div>! + "\n",
 		   %q!{{''}}!)
     assert_convert(%q!<p>{{'"}}</p>! + "\n",
 		   %q!{{'"}}!)
     assert_convert(%q!<div class="plugin">{{'\''}}</div>! + "\n",
 		   %q!{{'\''}}!)
-    assert_convert(%q!<p>{{\"""}}</p>! + "\n",
+    assert_convert(%q!<div class="plugin">{{'abc\\\\'}}</div>! + "\n",
+		   %q!{{'abc\\\\'}}!)
+    assert_convert(%q!<div class="plugin">{{\"""}}</div>! + "\n",
 		   %q!{{\"""}}!)
     assert_convert(%q!<div class="plugin">{{"ab\c"}}</div>! + "\n",
 		   %q!{{"ab\c"}}!)
