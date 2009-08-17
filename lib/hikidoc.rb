@@ -38,7 +38,7 @@ rescue LoadError
 end
 
 class HikiDoc
-  VERSION = "0.0.4" # FIXME
+  VERSION = "0.0.5" # FIXME
 
   class Error < StandardError
   end
