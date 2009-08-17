@@ -1,8 +1,9 @@
 ! NEWS
 
-!! Changes 0.0.4 from 0.0.3: XXXX-XX-XX
+!! Changes 0.0.4 from 0.0.3: 2009-08-17
 
 * escape collectly in inline_plugin same as block_plugin does.
+* fix a DoS vulnerability processing a plugin expression.
 
 !! Changes 0.0.3 from 0.0.2: 2008-08-25
 
