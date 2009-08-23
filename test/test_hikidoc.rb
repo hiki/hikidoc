@@ -295,6 +295,8 @@ TEST}}
                    "^WikiName",
                    :use_wiki_name => false,
                    :use_not_wiki_name => false)
+    assert_convert("<p>foo WikiName bar</p>\n",
+                   "foo ^WikiName bar")
   end
 
   def test_use_wiki_name_option
