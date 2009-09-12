@@ -361,6 +361,9 @@ TEST}}
     assert_convert("<dl>\n<dt>foo</dt>\n" +
                    "<dd><strong>bar</strong></dd>\n</dl>\n",
                    ":foo:'''bar'''")
+    assert_convert("<dl>\n<dt>foo</dt>\n" +
+                   "<dd><tt>bar</tt></dd>\n</dl>\n",
+                   ":foo:``bar``")
   end
 
   def test_definition_with_modifier_link
@@ -372,6 +375,10 @@ TEST}}
                    "<strong><a href=\"http://hikiwiki.org/\">Hiki</a></strong>" +
                    "</dd>\n</dl>\n",
                    ":Website:'''[[Hiki|http://hikiwiki.org/]]'''")
+    assert_convert("<dl>\n<dt>Website</dt>\n<dd>" +
+                   "<tt><a href=\"http://hikiwiki.org/\">Hiki</a></tt>" +
+                   "</dd>\n</dl>\n",
+                   ":Website:``[[Hiki|http://hikiwiki.org/]]``")
   end
 
   def test_table
@@ -411,6 +418,10 @@ TEST}}
                    "'''foo''' and '''bar'''")
     assert_convert("<p><em>foo</em> and <em>bar</em></p>\n",
                    "''foo'' and ''bar''")
+    assert_convert("<p><tt>foo</tt></p>\n",
+                   "``foo``")
+    assert_convert("<p><tt>foo==bar</tt>baz==</p>\n",
+                   "``foo==bar``baz==")
   end
 
   def test_nested_modifier
@@ -425,6 +436,8 @@ TEST}}
                    "[['''Hiki'''|http://hikiwiki.org/]]")
     assert_convert("<p><strong><a href=\"http://hikiwiki.org/\">Hiki</a></strong></p>\n",
                    "'''[[Hiki|http://hikiwiki.org/]]'''")
+    assert_convert("<p><tt><a href=\"http://hikiwiki.org/\">Hiki</a></tt></p>\n",
+                   "``[[Hiki|http://hikiwiki.org/]]``")
   end
 
   def test_pre_and_plugin
@@ -439,6 +452,8 @@ TEST}}
   def test_plugin_in_modifier
     assert_convert("<p><strong><span class=\"plugin\">{{foo}}</span></strong></p>\n",
                    "'''{{foo}}'''")
+    assert_convert("<p><tt><span class=\"plugin\">{{foo}}</span></tt></p>\n",
+                   "``{{foo}}``")
   end
 
   if Object.const_defined?(:Syntax)

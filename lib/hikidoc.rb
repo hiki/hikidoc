@@ -485,17 +485,20 @@ class HikiDoc
   STRONG = "'''"
   EM = "''"
   DEL = "=="
+  TT = "``"
 
   STRONG_RE = /'''.+?'''/
   EM_RE     = /''.+?''/
   DEL_RE    = /==.+?==/
+  TT_RE    = /``.+?``/
 
-  MODIFIER_RE = Regexp.union(STRONG_RE, EM_RE, DEL_RE)
+  MODIFIER_RE = Regexp.union(STRONG_RE, EM_RE, DEL_RE, TT_RE)
 
   MODTAG = {
     STRONG => "strong",
     EM     => "em",
-    DEL    => "del"
+    DEL    => "del",
+    TT     => 'tt'
   }
 
   def compile_modifier(str)
@@ -524,6 +527,8 @@ class HikiDoc
     when /\A''/
       return str[0, 2], str[2...-2]
     when /\A==/
+      return str[0, 2], str[2...-2]
+    when /\A``/
       return str[0, 2], str[2...-2]
     else
       raise UnexpectedError, "must not happen: #{str.inspect}"
@@ -720,6 +725,10 @@ class HikiDoc
 
     def del(item)
       "<del>#{item}</del>"
+    end
+
+    def tt(item)
+      "<tt>#{item}</tt>"
     end
 
     def text(str)
