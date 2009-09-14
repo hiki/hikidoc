@@ -133,14 +133,14 @@ Text surrounded by sets of double backquotes (``) is inline literal.
  If you write like this, it becomes ''emphasised''.
  And if you write like this, it becomes '''strongly emphasised'''.
  ==This is dull, but== And struck-out text is supported, too!
- If you write like this, it becomes ``inline literal``.
+ If you write like this, it becomes ``monospaced text``.
 
 *Example output
 
 If you write like this, it becomes ''emphasised''.
 And if you write like this, it becomes '''strongly emphasised'''.
 ==This is dull, but== And struck-out text is supported, too!
-If you write like this, it becomes ``inline literal``.
+If you write like this, it becomes ``monospaced text``.
 
 !Headings
 
