@@ -437,7 +437,7 @@ class HikiDoc
   end
 
   def compile_bracket_link(link)
-    if m = /\A(?>[^|\\]+|\\.)*\|/.match(link)
+    if m = /\A(.*)\|/.match(link)
       title = m[0].chop
       uri = m.post_match
       fixed_uri = fix_uri(uri)

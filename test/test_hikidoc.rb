@@ -246,6 +246,8 @@ TEST}}
                    "[[&]]")
     assert_convert(%Q|<p><a href="aa">aa</a>bb<a href="cc">cc</a></p>\n|,
                    "[[aa]]bb[[cc]]")
+    assert_convert(%Q!<p><a href="aa">a|a</a></p>\n!,
+                   "[[a|a|aa]]")
   end
 
   def test_inter_wiki_name
