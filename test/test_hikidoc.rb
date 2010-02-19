@@ -226,6 +226,8 @@ TEST}}
                    "[[Hiki|http:hikiwiki.html]]")
     assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|,
                    "http://hikiwiki.org/img.png")
+    assert_convert(%Q|<p><img src="http://hikiwiki.org:80/img.png" alt="img.png" /></p>\n|,
+                   "http://hikiwiki.org:80/img.png")
     assert_convert(%Q|<p><a href="http://hikiwiki.org/ja/?c=edit;p=Test">| +
                    %Q|http://hikiwiki.org/ja/?c=edit;p=Test</a></p>\n|,
                    "http://hikiwiki.org/ja/?c=edit;p=Test")

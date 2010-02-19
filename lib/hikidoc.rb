@@ -479,7 +479,7 @@ class HikiDoc
   IMAGE_EXTS = %w(.jpg .jpeg .gif .png)
 
   def image?(uri)
-    IMAGE_EXTS.include?(File.extname(uri).downcase)
+    IMAGE_EXTS.include?(uri[/\.[^.]+\z/].to_s.downcase)
   end
 
   STRONG = "'''"
