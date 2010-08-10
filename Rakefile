@@ -37,14 +37,15 @@ at_exit do
 end
 
 ENV["VERSION"] ||= HikiDoc::VERSION
-project = Hoe.new('hikidoc', HikiDoc::VERSION) do |project|
+project = Hoe.spec('hikidoc') do |project|
+  project.version = HikiDoc::VERSION
   project.author = ['Kazuhiko']
   project.email = ['kazuhiko@fdiary.net']
   project.description = project.paragraphs_of('README', 2).join
   project.summary = project.description.split(/(\.)/, 3)[0, 2].join
   project.url = 'http://rubyforge.org/projects/hikidoc/'
   project.test_globs = ['test/test_*.rb']
-  project.rdoc_pattern = /(?:^(?:lib|bin)|\AREADME\z)/
+  project.extra_rdoc_files = %w(README COPYING NEWS TextFormattingRules)
   project.changes = File.read("NEWS").split(/^!! .*$/)[1].strip
 end
 
