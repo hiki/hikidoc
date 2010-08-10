@@ -460,16 +460,30 @@ TEST}}
                    "``{{foo}}``")
   end
 
-  if Object.const_defined?(:Syntax)
-
-    def test_syntax_ruby
+  def test_syntax_ruby
+    if Object.const_defined?(:Syntax)
       assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre>\n",
                      "<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
       assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre>\n",
                      "<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
       assert_convert("<pre><span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span></pre>\n",
                      "<<< ruby\n'a<\">b'\n>>>")
+
+      # redefine method for below tests
+      class << Syntax::Convertors::HTML
+	def for_syntax(syntax)
+	  raise
+	end
+      end
     end
+
+    # use google-code-prettify
+    assert_convert("<pre class=\"prettyprint\">class A\n  def foo(bar)\n  end\nend</pre>\n",
+                   "<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
+    assert_convert("<pre class=\"prettyprint\">class A\n  def foo(bar)\n  end\nend</pre>\n",
+                   "<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
+    assert_convert("<pre class=\"prettyprint\">'a&lt;\"&gt;b'</pre>\n",
+                   "<<< ruby\n'a<\">b'\n>>>")
   end
 
   def test_plugin_in_pre_with_header

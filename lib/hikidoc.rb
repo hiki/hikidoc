@@ -678,6 +678,8 @@ class HikiDoc
           @f.puts convertor.convert(str)
           return
         rescue NameError, RuntimeError
+          @f.puts %Q|<pre class="prettyprint">#{text(str)}</pre>|
+          return
         end
       end
       preformatted(text(str))
