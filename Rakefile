@@ -57,23 +57,6 @@ task :tag do
   sh 'svn', 'copy', '-m', message, "#{base}trunk", "#{base}tags/#{version}"
 end
 
-begin
-  require 'rcov/rcovtask'
-
-  desc "Analyze code coverage of the unit tests."
-  Rcov::RcovTask.new(:coverage) do |t|
-    t.test_files = FileList[project.test_globs]
-    t.verbose = true
-    t.rcov_opts << "--text-report"
-    begin
-      require "rubygems"
-      t.rcov_opts << "--exclude=^#{Regexp.escape(Gem.dir)}"
-    rescue LoadError
-    end
-  end
-rescue LoadError
-end
-
 
 # Fix Hoe's uncustomizable options
 rdoc_main = "lib/hikidoc.rb"
