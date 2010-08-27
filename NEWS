@@ -1,9 +1,11 @@
 ! NEWS
 
-!! Changes 0.0.5 from 0.0.4: XXXX-XX-XX
+!! Changes 0.0.5 from 0.0.4: 2010-08-26
 
 * fix a bug: strings after non-WikiName expression are ignored
 * new text decoration ``monospaced text``
+* fix rake failure with Hoe 1.9.0 or later
+* add syntax highlighting with google-code-prettify
 
 !! Changes 0.0.4 from 0.0.3: 2009-08-17
 
