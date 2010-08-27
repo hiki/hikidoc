@@ -17,7 +17,7 @@ manifest = File.join(base_dir, "Manifest.txt")
 manifest_contents = []
 base_dir_included_components = %w(COPYING README README.ja Rakefile
                                   TextFormattingRules TextFormattingRules.ja
-                                  setup.rb)
+                                  NEWS.ja setup.rb)
 excluded_components = %w(.svn doc log pkg)
 Find.find(base_dir) do |target|
   target = truncate_base_dir[target]
