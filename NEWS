@@ -1,5 +1,9 @@
 ! NEWS
 
+!! Changes 0.0.6 from 0.0.5: 2010-08-28
+
+* fix missing NEWS.ja for packaging
+
 !! Changes 0.0.5 from 0.0.4: 2010-08-26
 
 * fix a bug: strings after non-WikiName expression are ignored
