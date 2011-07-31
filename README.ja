@@ -48,6 +48,7 @@ Subversion レポジトリ http://hikidoc.rubyforge.org/svn/ から取得して
 :[[lily|http://lily.sourceforge.jp/]]:シンプルな CMS (Web サイト構築システム)
 :[[Text::HikiDoc|http://search.cpan.org/perldoc?Text::HikiDoc]]:Perl による HikiDoc の実装
 :[[PikiDoc|http://github.com/moro/piki_doc/]]:HikiDocの「プラグイン」機能を追加できるライブラリです
+:[[mail2weblog|http://sourceforge.jp/projects/mail2weblog/wiki/FrontPage]]:高機能メール投稿型モブログ
 
 !! ライセンス
 

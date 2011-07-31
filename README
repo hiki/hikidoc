@@ -51,6 +51,7 @@ The following softwares use the HikiDoc library or the HikiDoc format.
 :[[lily|http://lily.sourceforge.jp/]]:a simple CMS
 :[[Text::HikiDoc|http://search.cpan.org/perldoc?Text::HikiDoc]]:HikiDoc by Perl
 :[[PikiDoc|http://github.com/moro/piki_doc/]]:a library that you can add plugin functions on HikiDoc
+:[[mail2weblog|http://sourceforge.jp/projects/mail2weblog/wiki/FrontPage]]:a blog system via mobile phone email
 
 !! License
 
