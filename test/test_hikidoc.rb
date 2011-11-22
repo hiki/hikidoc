@@ -461,17 +461,17 @@ TEST}}
   end
 
   def test_syntax_ruby
-    if Object.const_defined?(:Syntax)
-      assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre>\n",
+    if Object.const_defined?(:CodeRay)
+      assert_convert("<div class=\"CodeRay\">\n  <div class=\"code\"><pre><span class=\"keyword\">class</span> <span class=\"class\">A</span>\n  <span class=\"keyword\">def</span> <span class=\"function\">foo</span>(bar)\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre></div>\n</div>\n",
                      "<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
-      assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre>\n",
+      assert_convert("<div class=\"CodeRay\">\n  <div class=\"code\"><pre><span class=\"keyword\">class</span> <span class=\"class\">A</span>\n  <span class=\"keyword\">def</span> <span class=\"function\">foo</span>(bar)\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre></div>\n</div>\n",
                      "<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
-      assert_convert("<pre><span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span></pre>\n",
+      assert_convert("<div class=\"CodeRay\">\n  <div class=\"code\"><pre><span class=\"string\"><span class=\"delimiter\">'</span><span class=\"content\">a&lt;&quot;&gt;b</span><span class=\"delimiter\">'</span></span></pre></div>\n</div>\n",
                      "<<< ruby\n'a<\">b'\n>>>")
 
       # redefine method for below tests
-      class << Syntax::Convertors::HTML
-	def for_syntax(syntax)
+      class << CodeRay
+	def scan(str, info)
 	  raise
 	end
       end

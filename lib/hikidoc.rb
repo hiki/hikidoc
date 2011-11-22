@@ -674,8 +674,7 @@ class HikiDoc
       syntax = info ? info.downcase : nil
       if syntax
         begin
-          convertor = Syntax::Convertors::HTML.for_syntax(syntax)
-          @f.puts convertor.convert(str)
+          @f.puts CodeRay.scan(str, syntax.to_sym).div(:css => :class)
           return
         rescue NameError, RuntimeError
           @f.puts %Q|<pre class="prettyprint">#{text(str)}</pre>|
