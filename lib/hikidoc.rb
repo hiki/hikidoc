@@ -99,10 +99,8 @@ class HikiDoc
     buf = ""
     @plugin_blocks = []
     while chunk = s.scan_until(/\{\{/)
-      tail = chunk[-2, 2]
       chunk[-2, 2] = ""
       buf << chunk
-      # plugin
       if block = extract_plugin_block(s)
         @plugin_blocks.push block
         buf << "\0#{@plugin_blocks.size - 1}\0"
