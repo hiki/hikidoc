@@ -80,9 +80,9 @@ class HikiDoc
 
   def default_options
     {
-      :allow_bracket_inline_image => true,
-      :use_wiki_name => true,
-      :use_not_wiki_name => true,
+      allow_bracket_inline_image: true,
+      use_wiki_name: true,
+      use_not_wiki_name: true,
     }
   end
 

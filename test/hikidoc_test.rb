@@ -61,7 +61,7 @@ class HikiDocTestCase < Test::Unit::TestCase
     assert_convert("<p>{{&lt;&lt;\"End\"\nfoo's bar\nEnd\n}}</p>\n",
                    "{{<<\"End\"\nfoo's bar\nEnd\n}}")
 
-    options = {:plugin_syntax => method(:custom_valid_plugin_syntax?)}
+    options = {plugin_syntax: method(:custom_valid_plugin_syntax?)}
     assert_convert(%Q|<div class="plugin">{{&lt;&lt;"End"\nfoo's bar\nEnd\n}}</div>\n|,
                    %Q!{{<<"End"\nfoo's bar\nEnd\n}}!,
                    options)
@@ -291,14 +291,14 @@ TEST}}
                    "^WikiName")
     assert_convert("<p>^<a href=\"WikiName\">WikiName</a></p>\n",
                    "^WikiName",
-                   :use_not_wiki_name => false)
+                   use_not_wiki_name: false)
     assert_convert("<p>^WikiName</p>\n",
                    "^WikiName",
-                   :use_wiki_name => false)
+                   use_wiki_name: false)
     assert_convert("<p>^WikiName</p>\n",
                    "^WikiName",
-                   :use_wiki_name => false,
-                   :use_not_wiki_name => false)
+                   use_wiki_name: false,
+                   use_not_wiki_name: false)
     assert_convert("<p>foo WikiName bar</p>\n",
                    "foo ^WikiName bar")
   end
@@ -308,7 +308,7 @@ TEST}}
                    "WikiName")
     assert_convert("<p>WikiName</p>\n",
                    "WikiName",
-                   :use_wiki_name => false)
+                   use_wiki_name: false)
   end
 
   def test_image_link
@@ -316,13 +316,13 @@ TEST}}
                    "[[http://hikiwiki.org/img.png]]")
     assert_convert(%Q|<p><a href="http://hikiwiki.org/img.png">http://hikiwiki.org/img.png</a></p>\n|,
                    "[[http://hikiwiki.org/img.png]]",
-                   :allow_bracket_inline_image => false)
+                   allow_bracket_inline_image: false)
 
     assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img" /></p>\n|,
                    "[[img|http://hikiwiki.org/img.png]]")
     assert_convert(%Q|<p><a href="http://hikiwiki.org/img.png">img</a></p>\n|,
                    "[[img|http://hikiwiki.org/img.png]]",
-                   :allow_bracket_inline_image => false)
+                   allow_bracket_inline_image: false)
   end
 
   def test_definition
