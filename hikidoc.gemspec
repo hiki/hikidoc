@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{'HikiDoc' is a text-to-HTML conversion tool for web writers.}
   spec.summary       = %q{'HikiDoc' is a text-to-HTML conversion tool for web writers. HikiDoc allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid HTML (or XHTML).}
   spec.homepage      = "https://github.com/hiki/hikidoc"
-  spec.license       = "MIT"
+  spec.license       = "3-clause BSD license"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
