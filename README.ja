@@ -19,11 +19,19 @@ Subversion レポジトリ http://hikidoc.rubyforge.org/svn/ から取得して
 
 !! インストール
 
+!!! 半手動でのインストール
+
 以下のように 'setup.rb' スクリプトを用いてインストールします。
 
  $ ruby setup.rb config
  $ ruby setup.rb setup
  # ruby setup.rb install
+
+!!! RubyGems経由でのインストール
+
+以下のようにインストールします。
+
+ $ gem install hikidoc
 
 !! 文法
 
