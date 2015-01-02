@@ -19,11 +19,19 @@ Get from the subversion repository http://hikidoc.rubyforge.org/svn/ .
 
 !! Installation
 
+!!! Semi-manual installation
+
 Run the 'setup.rb' script like so:
 
  $ ruby setup.rb config
  $ ruby setup.rb setup
  # ruby setup.rb install
+
+!!! Installation via RubyGems
+
+Run the following command:
+
+ $ gem install hikidoc
 
 !! Syntax
 
