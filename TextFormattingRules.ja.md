@@ -14,9 +14,9 @@
 
 * 出力例
 
-例えば、
+<p>例えば、
 こういう風に記述すると、これらの行は
-一つのパラグラフとして整形されます。
+一つのパラグラフとして整形されます。</p>
 
 # リンク
 
@@ -38,11 +38,16 @@ fooWikiName  - 先頭に全て小文字の英字fooがあるためWikiNameでは
 
 * 出力例
 
-  * [WikiName](WikiName)     - [WikiName](WikiName)
-  * [HogeRule1](HogeRule1)    - [WikiName](WikiName)
-  * NOTWIKINAME  - 全て大文字なのでWikiNameではない
-  * WikiNAME     - NAMEが全て大文字なのでWikiNameではない
-  * fooWikiName  - 先頭に全て小文字の英字fooがあるためWikiNameではない
+<ul>
+<li><ul>
+<li><a href="WikiName">WikiName</a>     - <a href="WikiName">WikiName</a></li>
+<li><a href="HogeRule1">HogeRule1</a>    - <a href="WikiName">WikiName</a></li>
+<li>NOTWIKINAME  - 全て大文字なのでWikiNameではない</li>
+<li>WikiNAME     - NAMEが全て大文字なのでWikiNameではない</li>
+<li>fooWikiName  - 先頭に全て小文字の英字fooがあるためWikiNameではない</li>
+</ul></li>
+</ul>
+
 WikiNameの前に_^_をつけるとWikiNameへのリンクを抑制することができます。
 
 * 記述例
@@ -54,8 +59,13 @@ WikiName     - WikiName
 
 * 出力例
 
-  * [WikiName](WikiName)     - [WikiName](WikiName)
-  * ^[WikiName](WikiName)    - WikiNameへのリンクを抑制
+<ul>
+<li><ul>
+<li><a href="WikiName">WikiName</a>     - <a href="WikiName">WikiName</a></li>
+<li>WikiName    - WikiNameへのリンクを抑制</li>
+</ul></li>
+</ul>
+
 ## ページへのリンク
 
 ページ名を二つのカギカッコで囲むと、そのページへのリンクになります。
@@ -68,7 +78,7 @@ WikiName     - WikiName
 
 * 出力例
 
-例えば[逆引きRuby](逆引きRuby)とすると、そのページへのリンクになります。
+<p>例えば<a href="逆引きRuby">逆引きRuby</a>とすると、そのページへのリンクになります。</p>
 
 ## 任意のURLへのリンク
 
@@ -82,7 +92,7 @@ WikiName     - WikiName
 
 * 出力例
 
-[Yahoo!](http://www.yahoo.co.jp/)とかもできます。
+<p><a href="http://www.yahoo.co.jp/">Yahoo!</a>とかもできます。</p>
 
 パラグラフ中にURLっぽいものがあると勝手にリンクがはられます。
 
@@ -94,7 +104,7 @@ Hikiのページはhttp://hikiwiki.org/ja/です。
 
 * 出力例
 
-Hikiのページは[http://hikiwiki.org/ja/](http://hikiwiki.org/ja/)です。
+<p>Hikiのページは<a href="http://hikiwiki.org/ja/">http://hikiwiki.org/ja/</a>です。</p>
 
 このときURLの末尾がjpg,jpeg,png,gifだとIMGタグに展開されます。
 
@@ -106,7 +116,7 @@ http://jp.rubyist.net/theme/clover/clover_h1.png
 
 * 出力例
 
-![http://jp.rubyist.net/theme/clover/clover_h1.png](http://jp.rubyist.net/theme/clover/clover_h1.png)
+<p><img src="http://jp.rubyist.net/theme/clover/clover_h1.png" alt="clover_h1.png"></p>
 
 #整形済みテキスト
 
@@ -114,23 +124,21 @@ http://jp.rubyist.net/theme/clover/clover_h1.png
 
 * 出力例
 
-```
-require 'cgi'
+<pre>require 'cgi'
 
 cgi = CGI::new
 cgi.header
 
-puts <<EOS
-<html>
-  <head>
-    <title>Hello!</title>
-  </head>
-  <body>
-  <p>Hello!</p>
-  </body>
-</html>
-EOS
-```
+puts &lt;&lt;EOS
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Hello!&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;p&gt;Hello!&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+EOS</pre>
 
 # 文字の修飾
 
@@ -148,15 +156,15 @@ EOS
 このようにすると''強調''になります。
 そして、このようにすると'''さらに強調'''されます。
 ==だるいけど==さらに、取り消し線もサポートしています。
-またまた、このようにすると''等幅表示''になります。
+またまた、このようにすると``等幅表示``になります。
 ```
 
 * 出力例
 
-このようにすると_強調_になります。
-そして、このようにすると**さらに強調**されます。
-~~だるいけど~~さらに、取り消し線もサポートしています。
-またまた、このようにすると_等幅表示_になります。
+<p>このようにすると<em>強調</em>になります。
+そして、このようにすると<strong>さらに強調</strong>されます。
+<del>だるいけど</del>さらに、取り消し線もサポートしています。
+またまた、このようにすると<tt>等幅表示</tt>になります。</p>
 
 # 見出し
 
@@ -176,15 +184,11 @@ EOS
 
 * 出力例
 
-# 見出し1
-
-## 見出し2
-
-### 見出し3
-
-#### 見出し4
-
-##### 見出し5
+<h1>見出し1</h1>
+<h2>見出し2</h2>
+<h3>見出し3</h3>
+<h4>見出し4</h4>
+<h5>見出し5</h5>
 
 # 水平線
 
@@ -200,10 +204,9 @@ EOS
 
 * 出力例
 
-あいうえお。
-
-----
-かきくけこ。
+<p>あいうえお。</p>
+<hr>
+<p>かきくけこ。</p>
 
 # 箇条書き
 
@@ -241,25 +244,33 @@ EOS
 
 * 出力例
 
-* アイテム1
-  * アイテム1.1
-  * アイテム1.2
-    * アイテム1.2.1
-    * アイテム1.2.2
-    * アイテム1.2.3
-  * アイテム1.3
-  * アイテム1.4
-* アイテム2
-
-1. その1
-1. その2
-  2. その2.1
-  2. その2.2
-  2. その2.3
-1. その3
-  2. その3.1
-    3. その3.1.1
-    3. その3.1.2
+<ul>
+<li>アイテム1<ul>
+<li>アイテム1.1</li>
+<li>アイテム1.2<ul>
+<li>アイテム1.2.1</li>
+<li>アイテム1.2.2</li>
+<li>アイテム1.2.3</li>
+</ul></li>
+<li>アイテム1.3</li>
+<li>アイテム1.4</li>
+</ul></li>
+<li>アイテム2</li>
+</ul>
+<ol>
+<li>その1</li>
+<li>その2<ol>
+<li>その2.1</li>
+<li>その2.2</li>
+<li>その2.3</li>
+</ol></li>
+<li>その3<ol>
+<li>その3.1<ol>
+<li>その3.1.1</li>
+<li>その3.1.2</li>
+</ol></li>
+</ol></li>
+</ol>
 
 # 引用
 
@@ -277,11 +288,12 @@ EOS
 
 * 出力例
 
-> これは引用です。
-> さらに引用します。
-> 続けて引用します。引用が連続する場合、
-> このように一つの引用として
-> 展開されます。
+<blockquote><p>これは引用です。
+さらに引用します。
+続けて引用します。引用が連続する場合、
+このように一つの引用として
+展開されます。</p>
+</blockquote>
 
 # 用語解説
 
@@ -299,11 +311,14 @@ EOS
 
 <dl>
 <dt>りんご</dt>
-<dd>apple</dd>
+<dd>apple
+</dd>
 <dt>ゴリラ</dt>
-<dd>gorilla</dd>
+<dd>gorilla
+</dd>
 <dt>ラクダ</dt>
-<dd>camel</dd>
+<dd>camel
+</dd>
 </dl>
 
 # 表
@@ -323,11 +338,15 @@ EOS
 
 * 出力例
 
-<table>
-<tr><th>行見出し＼列見出し</th><th>列-A</th><th>列-B</th><th>列-C</th><th colspan="2">列-D-E（横連結）</th></tr>
-<tr><th>行-1</th><td>A1</td><td>B1</td><td rowspan="2">C1-C2（縦連結）</td><td>D1</td><td>E1</td></tr>
-<tr><th>行-2</th><td>A2</td><td>B2</td><td colspan="2" rowspan="2">D2-E2-D3-E3（縦横連結）</td></tr>
-<tr><th>行-3</th><td colspan="3">A3-C3（横３連結）</td></tr>
+<table border="1">
+<tr><th>行見出し＼列見出し</th><th>列-A</th><th>列-B</th><th>列-C</th><th colspan="2">列-D-E（横連結）
+</th></tr>
+<tr><th>行-1</th><td>A1</td><td>B1</td><td rowspan="2">C1-C2（縦連結）</td><td>D1</td><td>E1
+</td></tr>
+<tr><th>行-2</th><td>A2</td><td>B2</td><td rowspan="2" colspan="2">D2-E2-D3-E3（縦横連結）
+</td></tr>
+<tr><th>行-3</th><td colspan="3">A3-C3（横３連結）
+</td></tr>
 </table>
 
 #コメント行
