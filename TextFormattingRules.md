@@ -134,12 +134,14 @@ EOS
 
 # Text decoration
 
-Text surrounded by sets of two single quotes (_) is emphasised.
-_
-Text surrounded by sets of three single quotes (**) is strongly emphasised.
-**
-Text surrounded by sets of double equal signs (~~=) is struck out.~~
-Text surrounded by sets of double backquotes (`) is inline literal.`
+Text surrounded by sets of two single quotes ('') is emphasised.
+
+Text surrounded by sets of three single quotes (''') is strongly emphasised.
+
+Text surrounded by sets of double equal signs (===) is struck out.
+
+Text surrounded by sets of double backquotes (``) is inline literal.
+
 * Example statement
 
 ```
