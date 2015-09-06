@@ -14,9 +14,9 @@ will be formatted as one paragraph.
 
 * Example output
 
-For example,
+<p>For example,
 if I write like this, these lines
-will be formatted as one paragraph.
+will be formatted as one paragraph.</p>
 
 # Links
 
@@ -38,11 +38,16 @@ fooWikiName  - This begins with "foo", which is in all lowercase, so this is not
 
 * Example output
 
-  * [WikiName](WikiName)     - [WikiName](WikiName)
-  * [HogeRule1](HogeRule1)    - [WikiName](WikiName)
-  * NOTWIKINAME  - All of the letters are uppercase, so this is not a [WikiName](WikiName)
-  * WikiNAME     - All of the letters in NAME are uppercase, so this is not a [WikiName](WikiName)
-  * fooWikiName  - This begins with "foo", which is in all lowercase, so this is not a [WikiName](WikiName)
+<ul>
+<li><ul>
+<li><a href="WikiName">WikiName</a>     - <a href="WikiName">WikiName</a></li>
+<li><a href="HogeRule1">HogeRule1</a>    - <a href="WikiName">WikiName</a></li>
+<li>NOTWIKINAME  - All of the letters are uppercase, so this is not a <a href="WikiName">WikiName</a></li>
+<li>WikiNAME     - All of the letters in NAME are uppercase, so this is not a <a href="WikiName">WikiName</a></li>
+<li>fooWikiName  - This begins with "foo", which is in all lowercase, so this is not a <a href="WikiName">WikiName</a></li>
+</ul></li>
+</ul>
+
 You can disable an auto [WikiName](WikiName) link by putting _^_ to the [WikiName](WikiName).
 
 * Example statement
@@ -54,8 +59,13 @@ WikiName     - WikiName
 
 * Example output
 
-  * [WikiName](WikiName)     - [WikiName](WikiName)
-  * ^[WikiName](WikiName)    - Disable [WikiName](WikiName) link
+<ul>
+<li><ul>
+<li><a href="WikiName">WikiName</a>     - <a href="WikiName">WikiName</a></li>
+<li>WikiName    - Disable WikiName link    - Disable <a href="WikiName">WikiName</a> link</li>
+</ul></li>
+</ul>
+
 ## Linking to other Wiki pages
 
 If a page name is surrounded with two pairs of brackets, it becomes a link to that page.
@@ -68,7 +78,7 @@ For example, if you write [[TextFormattingRules]], it becomes a link to that pag
 
 * Example output
 
-For example, if you write [TextFormattingRules](TextFormattingRules), it becomes a link to that page.
+<p>For example, if you write <a href="TextFormattingRules">TextFormattingRules</a>, it becomes a link to that page.</p>
 
 ## Linking to an arbitrary URL
 
@@ -82,7 +92,7 @@ Links like [[Yahoo!|http://www.yahoo.com/]] are also possible.
 
 * Example output
 
-Links like [Yahoo!](http://www.yahoo.com/) are also possible.
+<p>Links like <a href="http://www.yahoo.com/">Yahoo!</a> are also possible.</p>
 
 Text in a paragraph that looks like a URL will automatically become a link.
 
@@ -94,7 +104,7 @@ Hiki's home page is http://hikiwiki.org/en/ (English).
 
 * Example output
 
-Hiki's home page is [http://hikiwiki.org/en/](http://hikiwiki.org/en/) (English).
+<p>Hiki's home page is <a href="http://hikiwiki.org/en/">http://hikiwiki.org/en/</a> (English).</p>
 
 In this case, if the URL ends with jpg., .jpeg, .png, or .gif, the image is displayed on the page.
 
@@ -106,7 +116,7 @@ http://jp.rubyist.net/theme/clover/clover_h1.png
 
 * Example output
 
-![http://jp.rubyist.net/theme/clover/clover_h1.png](http://jp.rubyist.net/theme/clover/clover_h1.png)
+<p><img src="http://jp.rubyist.net/theme/clover/clover_h1.png" alt="clover_h1.png"></p>
 
 #Preformatted text
 
@@ -114,23 +124,21 @@ Lines beginning with spaces or tabs will be treated as preformatted text.
 
 * Example output
 
-```
-require 'cgi'
+<pre>require 'cgi'
 
 cgi = CGI::new
 cgi.header
 
-puts <<EOS
-<html>
-  <head>
-    <title>Hello!</title>
-  </head>
-  <body>
-  <p>Hello!</p>
-  </body>
-</html>
-EOS
-```
+puts &lt;&lt;EOS
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Hello!&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;p&gt;Hello!&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+EOS</pre>
 
 # Text decoration
 
@@ -153,10 +161,10 @@ If you write like this, it becomes ``monospaced text``.
 
 * Example output
 
-If you write like this, it becomes _emphasised_.
-And if you write like this, it becomes **strongly emphasised**.
-~~This is dull, but~~ And struck-out text is supported, too!
-If you write like this, it becomes `monospaced text`.
+<p>If you write like this, it becomes <em>emphasised</em>.
+And if you write like this, it becomes <strong>strongly emphasised</strong>.
+<del>This is dull, but</del> And struck-out text is supported, too!
+If you write like this, it becomes <tt>monospaced text</tt>.</p>
 
 # Headings
 
@@ -176,15 +184,11 @@ One can use up to six exclamation marks; they will be converted to \<h1\> to \<h
 
 * Example output
 
-# Heading1
-
-## Heading2
-
-### Heading3
-
-#### Heading4
-
-##### Heading5
+<h1>Heading1</h1>
+<h2>Heading2</h2>
+<h3>Heading3</h3>
+<h4>Heading4</h4>
+<h5>Heading5</h5>
 
 # Horizontal lines
 
@@ -200,10 +204,9 @@ F G H I J
 
 * Example output
 
-A B C D E
-
-----
-F G H I J
+<p>A B C D E</p>
+<hr>
+<p>F G H I J</p>
 
 # Lists
 
@@ -241,25 +244,33 @@ Lines beginning with a # become numbered lists.
 
 * Example output
 
-* Item 1
-  * Item 1.1
-  * Item 1.2
-    * Item 1.2.1
-    * Item 1.2.2
-    * Item 1.2.3
-  * Item 1.3
-  * Item 1.4
-* Item 2
-
-1. Item 1
-1. Item 2
-  2. Item 2.1
-  2. Item 2.2
-  2. Item 2.3
-1. Item 3
-  2. Item 3.1
-    3. Item 3.1.1
-    3. Item 3.1.2
+<ul>
+<li>Item 1<ul>
+<li>Item 1.1</li>
+<li>Item 1.2<ul>
+<li>Item 1.2.1</li>
+<li>Item 1.2.2</li>
+<li>Item 1.2.3</li>
+</ul></li>
+<li>Item 1.3</li>
+<li>Item 1.4</li>
+</ul></li>
+<li>Item 2</li>
+</ul>
+<ol>
+<li>Item 1</li>
+<li>Item 2<ol>
+<li>Item 2.1</li>
+<li>Item 2.2</li>
+<li>Item 2.3</li>
+</ol></li>
+<li>Item 3<ol>
+<li>Item 3.1<ol>
+<li>Item 3.1.1</li>
+<li>Item 3.1.2</li>
+</ol></li>
+</ol></li>
+</ol>
 
 # Quotations
 
@@ -277,11 +288,12 @@ Lines beginning with two double quotes become quotations.
 
 * Example output
 
-> This is a quotation.
-> This is another quote.
-> This is a continued quote.  When there are consecutive quotations,
-> they are displayed as one quote,
-> like this.
+<blockquote><p>This is a quotation.
+This is another quote.
+This is a continued quote.  When there are consecutive quotations,
+they are displayed as one quote,
+like this.</p>
+</blockquote>
 
 # Definitions
 
@@ -299,11 +311,14 @@ Lines beginning with a colon and have a phrase and explanation separated by anot
 
 <dl>
 <dt>ringo</dt>
-<dd>apple</dd>
+<dd>apple
+</dd>
 <dt>gorira</dt>
-<dd>gorilla</dd>
+<dd>gorilla
+</dd>
 <dt>rakuda</dt>
-<dd>camel</dd>
+<dd>camel
+</dd>
 </dl>
 
 # Tables
@@ -326,11 +341,15 @@ the cell.
 
 * Example output
 
-<table>
-<tr><th>row heading \ column heading</th><th>column A</th><th>column B</th><th>column C</th><th colspan="2">column D-E (horizontal concatenation)</th></tr>
-<tr><th>row 1</th><td>A1</td><td>B1</td><td rowspan="2">C1-C2 (vertical concatenation)</td><td>D1</td><td>E1</td></tr>
-<tr><th>row 2</th><td>A2</td><td>B2</td><td colspan="2" rowspan="2">D2-E2-D3-E3 (vertical and horizontal concatenation)</td></tr>
-<tr><th>row 3</th><td colspan="3">A3-C3 (horizontal concatenation)</td></tr>
+<table border="1">
+<tr><th>row heading \ column heading</th><th>column A</th><th>column B</th><th>column C</th><th colspan="2">column D-E (horizontal concatenation)
+</th></tr>
+<tr><th>row 1</th><td>A1</td><td>B1</td><td rowspan="2">C1-C2 (vertical concatenation)</td><td>D1</td><td>E1
+</td></tr>
+<tr><th>row 2</th><td>A2</td><td>B2</td><td rowspan="2" colspan="2">D2-E2-D3-E3 (vertical and horizontal concatenation)
+</td></tr>
+<tr><th>row 3</th><td colspan="3">A3-C3 (horizontal concatenation)
+</td></tr>
 </table>
 
 # Comments
