@@ -62,7 +62,7 @@ WikiName     - WikiName
 <ul>
 <li><ul>
 <li><a href="WikiName">WikiName</a>     - <a href="WikiName">WikiName</a></li>
-<li>WikiName    - Disable WikiName link    - Disable <a href="WikiName">WikiName</a> link</li>
+<li>WikiName    - Disable <a href="WikiName">WikiName</a> link</li>
 </ul></li>
 </ul>
 
