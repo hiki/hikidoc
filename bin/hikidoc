@@ -16,10 +16,14 @@ HTML_TEMPLATE = <<EOS
 </html>
 EOS
 
+def usage
+  "Usage: #$0 [OPTIONS] FILE"
+end
+
 options = {}
 format_options = {}
 ARGV.options do |opts|
-  opts.banner = "Usage: #$0 [OPTIONS] FILE"
+  opts.banner = usage
 
   opts.on('-f', '--fragment',
           'Output HTML fragments only') do
@@ -42,7 +46,7 @@ when 0
 when 1
   title, text = ARGV[0], File.read(ARGV[0])
 else
-  usage
+  abort ARGV.options.help
 end
 
 body = HikiDoc.to_html(text, format_options)
