@@ -46,7 +46,7 @@ when 0
 when 1
   title, text = ARGV[0], File.read(ARGV[0])
 else
-  usage
+  abort usage
 end
 
 body = HikiDoc.to_html(text, format_options)
