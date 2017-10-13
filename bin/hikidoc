@@ -16,10 +16,14 @@ HTML_TEMPLATE = <<EOS
 </html>
 EOS
 
+def usage
+  "Usage: #$0 [OPTIONS] FILE"
+end
+
 options = {}
 format_options = {}
 ARGV.options do |opts|
-  opts.banner = "Usage: #$0 [OPTIONS] FILE"
+  opts.banner = usage
 
   opts.on('-f', '--fragment',
           'Output HTML fragments only') do
