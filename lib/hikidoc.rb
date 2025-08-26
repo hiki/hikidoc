@@ -96,7 +96,7 @@ class HikiDoc
 
   def escape_plugin_blocks(text)
     s = StringScanner.new(text)
-    buf = ""
+    buf = +""
     @plugin_blocks = []
     while chunk = s.scan_until(/\{\{/)
       chunk[-2, 2] = ""
@@ -136,7 +136,7 @@ class HikiDoc
 
   def extract_plugin_block(s)
     pos = s.pos
-    buf = ""
+    buf = +""
     while chunk = s.scan_until(/\}\}/)
       buf << chunk
       buf.chomp!("}}")
@@ -565,7 +565,7 @@ class HikiDoc
       when :paragraph
         []
       else
-        ""
+        +""
       end
     end
 
@@ -653,7 +653,7 @@ class HikiDoc
     end
 
     def tdattr(rs, cs)
-      buf = ""
+      buf = +""
       buf << %Q( rowspan="#{rs}") if rs
       buf << %Q( colspan="#{cs}") if cs
       buf
