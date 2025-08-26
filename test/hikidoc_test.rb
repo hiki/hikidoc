@@ -301,6 +301,14 @@ TEST}}
                    use_not_wiki_name: false)
     assert_convert("<p>foo WikiName bar</p>\n",
                    "foo ^WikiName bar")
+    assert_convert("<p>WikiName - Disable <a href=\"WikiName\">WikiName</a> link</p>\n",
+                   "^WikiName - Disable WikiName link")
+    assert_convert("<p><a href=\"WikiName\">WikiName</a> - Disable DisabledWikiName link</p>\n",
+                   "WikiName - Disable ^DisabledWikiName link")
+    assert_convert("<p><a href=\"WikiName\">WikiName</a> - Disable <a href=\"WikiName\">WikiName</a> link</p>\n",
+                   "WikiName - Disable WikiName link")
+    assert_convert("<p>DisabledWikiName - Disable DisabledWikiName link</p>\n",
+                   "^DisabledWikiName - Disable ^DisabledWikiName link")
   end
 
   def test_use_wiki_name_option

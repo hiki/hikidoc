@@ -400,22 +400,22 @@ class HikiDoc
   def compile_inline(str, buf = nil)
     buf ||= @output.container
     re = inline_syntax_re
-    pending_str = nil
+    pending_str = ""
     while m = re.match(str)
       str = m.post_match
 
       link, uri, mod, wiki_name = m[1, 4]
-      if wiki_name and wiki_name[0, 1] == "^"
-        pending_str = m.pre_match + wiki_name[1..-1] + str
+      if wiki_name and wiki_name.start_with? "^"
+        pending_str += m.pre_match + wiki_name[1..-1]
         next
       end
 
       pre_str = "#{pending_str}#{m.pre_match}"
-      pending_str = nil
+      pending_str = ""
       evaluate_plugin_block(pre_str, buf)
       compile_inline_markup(buf, link, uri, mod, wiki_name)
     end
-    evaluate_plugin_block(pending_str || str, buf)
+    evaluate_plugin_block(pending_str + str, buf)
     buf
   end
 
