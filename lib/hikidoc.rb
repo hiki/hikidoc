@@ -38,7 +38,7 @@ rescue LoadError
 end
 
 class HikiDoc
-  VERSION = "0.1.0"
+  VERSION = "0.1.1"
 
   class Error < StandardError
   end
