@@ -1,5 +1,11 @@
 ! NEWS
 
+!! 0.1.1: 2025-09-04
+
+* Fixed license information in gem
+* Fixed a WikiName escape bug (GH-10, Patch by HASHIMOTO, Naoki)
+* Suppressed "literal string will be frozen" warnings (GH-12, Reported by Mamoru TASAKA)
+
 !! Changes 0.0.6 from 0.0.5: 2010-08-28
 
 * fix missing NEWS.ja for packaging

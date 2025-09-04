@@ -1,5 +1,11 @@
 ! NEWS.ja
 
+!! 0.1.1: 2025-09-04
+
+* gemのライセンス情報を修正
+* WikiNameのエスケープに関する問題を修正（GH-10, HASHIMOTO, Naokiさんがパッチ提供）
+* "literal string will be frozen"警告を抑制（GH-12, Mamoru TASAKAさんが報告）
+
 !! 0.0.5から0.0.6の変更点: 2010-08-28
 
 * パッケージからNEWS.jaが漏れてしまうのを修正
